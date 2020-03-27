@@ -89,14 +89,14 @@ export class DataService {
             this.maxOrderHistory
         );
         const index = Core.data.ordersOpen.findIndex(
-            (f) => f.option_id === order.option_id
+            f => f.option_id === order.option_id
         );
         if (index === -1) {
             return;
         }
         delete Core.data.ordersOpen[index];
         Core.data.ordersOpen = Core.data.ordersOpen.filter(
-            (item) => item !== undefined
+            item => item !== undefined
         );
         Core.EventManager.emit(Core.DataEvent.REMOVE_ORDER_DISPATCHER, order);
         await this.dataUpdateObsevable();
@@ -108,11 +108,16 @@ export class DataService {
      * @param candle
      */
     public updateCandle(candle: IQOption.IQOptionCandle) {
+        if (!this.isNewCandle(candle)) {
+            Core.data.candles.close.shift();
+            Core.data.candles.high.shift();
+            Core.data.candles.low.shift();
+        }
+        Core.data.candles.high.unshift(candle.max);
+        Core.data.candles.low.unshift(candle.min);
+        Core.data.candles.close.unshift(candle.close);
         if (this.isNewCandle(candle)) {
-            Core.data.candles.high.unshift(candle.max);
-            Core.data.candles.low.unshift(candle.min);
             Core.data.candles.open.unshift(candle.open);
-            Core.data.candles.close.unshift(candle.close);
             Core.data.candles.high = Core.data.candles.high.slice(
                 0,
                 this.maxCandles
@@ -145,7 +150,7 @@ export class DataService {
             ordersOpen: Core.data.ordersOpen,
             win: Core.data.win,
             lose: Core.data.lose,
-            timestamp: new Date().toISOString(),
+            timestamp: new Date().toISOString()
         });
     }
 
@@ -155,9 +160,6 @@ export class DataService {
      * @param candle
      */
     private isNewCandle(candle: IQOption.IQOptionCandle): boolean {
-        return (
-            Core.data.candles.high.length === 0 ||
-            this.lastCandleFrom !== candle.from
-        );
+        return this.lastCandleFrom !== candle.from;
     }
 }

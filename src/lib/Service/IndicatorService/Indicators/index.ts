@@ -9,4 +9,5 @@
 
 export * from "./IndicatorRSI";
 export * from "./IndicatorMACD";
+export * from "./IndicatorBBANDS";
 export * from "./IndicatorGraphicalAnalysis";

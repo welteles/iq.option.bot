@@ -18,11 +18,11 @@ export const iqOptionFindBalance = (
 ): IQOption.IQOptionBalance => {
     if (test) {
         return balances.filter(
-            (f) => f.type === IQOption.IQOptionCurrencyType.TEST
+            f => f.type === IQOption.IQOptionCurrencyType.TEST
         )[0];
     }
     return balances.filter(
-        (f) =>
+        f =>
             f.currency === currency &&
             f.type === IQOption.IQOptionCurrencyType.FIAT
     )[0];

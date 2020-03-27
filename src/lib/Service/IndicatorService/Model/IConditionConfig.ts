@@ -31,4 +31,9 @@ export interface IConditionConfig {
      * Sell entry.
      */
     sellEntry?: number;
+
+    /**
+     * Deviation.
+     */
+    deviation: number;
 }

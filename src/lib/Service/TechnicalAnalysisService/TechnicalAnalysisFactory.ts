@@ -47,6 +47,6 @@ export class TechnicalAnalysisFactory {
         [TechnicalAnalysis.TRADINGVIEW]: (
             technicalAnalysisConfig: Core.ITechnicalAnalysisConfig,
             market: IQOption.IQOptionMarket
-        ) => new Core.InvestingService(technicalAnalysisConfig, market),
+        ) => new Core.InvestingService(technicalAnalysisConfig, market)
     };
 }

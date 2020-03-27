@@ -21,7 +21,7 @@ export abstract class Config {
         return this.copySampleFile()
             .then(() => this.streamConfigSample())
             .then(() => Promise.resolve())
-            .catch((e) => Promise.reject(e));
+            .catch(e => Promise.reject(e));
     }
 
     /**
@@ -56,7 +56,7 @@ export abstract class Config {
         })
             .then(() => Config.loadConfig())
             .then(() => Promise.resolve())
-            .catch((e) => Promise.reject(e));
+            .catch(e => Promise.reject(e));
     }
 
     /**

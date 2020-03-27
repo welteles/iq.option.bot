@@ -54,5 +54,5 @@ export enum TechnicalAnalysisPeriod {
     /**
      * Period month.
      */
-    PERIOD_MONTH = "PERIOD_MONTH",
+    PERIOD_MONTH = "PERIOD_MONTH"
 }

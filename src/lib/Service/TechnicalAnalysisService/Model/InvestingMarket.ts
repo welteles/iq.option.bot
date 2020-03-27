@@ -11,5 +11,5 @@
  * Market.
  */
 export enum InvestingMarket {
-    EURUSD = 9,
+    EURUSD = 9
 }

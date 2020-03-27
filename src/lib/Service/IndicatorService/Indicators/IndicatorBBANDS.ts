@@ -6,12 +6,13 @@
  *
  * Proprietary and confidential.
  */
+import * as talib from "ta-lib";
 import * as Core from "../../..";
 
 /**
  * Indicator condition.
  */
-export class IndicatorGraphicalAnalysis implements Core.IIndicator {
+export class IndicatorBBANDS implements Core.IIndicator {
     /**
      * Indicator config.
      */
@@ -30,11 +31,16 @@ export class IndicatorGraphicalAnalysis implements Core.IIndicator {
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide | boolean {
-        if (this.conditionConfig.sellEntry !== undefined) {
-            return Core.StrategySide.SELL;
-        }
-        if (this.conditionConfig.buyEntry !== undefined) {
+        const bbands = talib.BBANDS(
+            candles.close.slice(0, this.conditionConfig.periods[0]),
+            this.conditionConfig.periods[0],
+            this.conditionConfig.deviation
+        );
+        if (candles.low[0] < bbands.lowband[0]) {
             return Core.StrategySide.BUY;
+        }
+        if (candles.high[0] > bbands.highband[0]) {
+            return Core.StrategySide.SELL;
         }
         return false;
     }

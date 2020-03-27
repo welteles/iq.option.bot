@@ -45,7 +45,7 @@ export abstract class EventManager {
         Core.logger().silly(
             `${Core.timestampHelper()} EventManager::registerEvent[${eventName}]`
         );
-        this.eventEmitter.on(eventName, (args) => event(args));
+        this.eventEmitter.on(eventName, args => event(args));
         return eventName;
     }
 
@@ -68,7 +68,7 @@ export abstract class EventManager {
         Core.logger().silly(
             `${Core.timestampHelper()} EventManager::removeEvent[${eventName}]`
         );
-        this.eventEmitter.removeListener(eventName, (args) => event(args));
+        this.eventEmitter.removeListener(eventName, args => event(args));
         return eventName;
     }
 

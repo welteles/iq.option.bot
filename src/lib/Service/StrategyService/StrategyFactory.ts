@@ -56,7 +56,7 @@ export class StrategyFactory {
             new Core.StrategySoros(strategyConfig),
         [StrategyType.REVERSE_MARTINGALE]: (
             strategyConfig: Core.IStrategyConfig
-        ) => new Core.StrategyReverseMartingale(strategyConfig),
+        ) => new Core.StrategyReverseMartingale(strategyConfig)
     };
 }
 

@@ -20,10 +20,10 @@ export const data: Core.IData = {
         high: [],
         low: [],
         open: [],
-        close: [],
+        close: []
     },
     win: [],
     lose: [],
     initializationData: {},
-    date: "",
+    date: ""
 } as any;

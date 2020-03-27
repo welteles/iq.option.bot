@@ -11,5 +11,5 @@
  * Events indicator.
  */
 export enum TechnicalAnalysisEvent {
-    TECHNICAL_ANALYSIS_CHECK = "TECHNICAL_ANALYSIS_CHECK",
+    TECHNICAL_ANALYSIS_CHECK = "TECHNICAL_ANALYSIS_CHECK"
 }

@@ -19,5 +19,5 @@ export enum StrategyValueType {
     /**
      * Percent.
      */
-    PERCENT = "PERCENT",
+    PERCENT = "PERCENT"
 }

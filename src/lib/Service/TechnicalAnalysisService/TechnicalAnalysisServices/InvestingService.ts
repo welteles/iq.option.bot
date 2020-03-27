@@ -48,7 +48,7 @@ export class InvestingService implements Core.ITechnicalAnalysis {
         [IQOption.IQOptionMarket.USDCHF]:
             TechnicalAnalysisInvesting.TechnicalAnalysisInvestingMarket.USDCHF,
         [IQOption.IQOptionMarket.USDJPY]:
-            TechnicalAnalysisInvesting.TechnicalAnalysisInvestingMarket.USDJPY,
+            TechnicalAnalysisInvesting.TechnicalAnalysisInvestingMarket.USDJPY
     };
 
     /**
@@ -78,7 +78,7 @@ export class InvestingService implements Core.ITechnicalAnalysis {
         [Core.TechnicalAnalysisPeriod.PERIOD_WEEK]:
             TechnicalAnalysisInvesting.TechnicalAnalysisInvestingPeriod.WEEK,
         [Core.TechnicalAnalysisPeriod.PERIOD_MONTH]:
-            TechnicalAnalysisInvesting.TechnicalAnalysisInvestingPeriod.MONTH,
+            TechnicalAnalysisInvesting.TechnicalAnalysisInvestingPeriod.MONTH
     };
 
     /**
