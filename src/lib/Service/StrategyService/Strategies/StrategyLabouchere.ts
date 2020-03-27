@@ -44,6 +44,26 @@ export class StrategyLabouchere extends StrategyAbstract
     }
 
     /**
+     * On order closed.
+     *
+     * @param orderClosed
+     */
+    public onOrderCloseObservable(
+        orderClosed: IQOption.IQOptionOptionClosed
+    ): Promise<void> {
+        return super.onOrderCloseObservable(orderClosed, false).then(() => {
+            const lastOrder = Core.data.ordersHistory[0];
+            if (lastOrder.result === IQOption.IQOptionResult.WIN) {
+                this.addWin();
+            }
+            if (lastOrder.result === IQOption.IQOptionResult.LOOSE) {
+                this.addLoss();
+            }
+            this.unlockTrade();
+        });
+    }
+
+    /**
      * Is max attempts?
      */
     private getLabouchereSize(): number {
@@ -102,15 +122,6 @@ export class StrategyLabouchere extends StrategyAbstract
      * Get next value.
      */
     private createNextTarget(): number {
-        if (!this.noHasOrderHistory()) {
-            const lastOrder = Core.data.ordersHistory[0];
-            if (lastOrder.result === IQOption.IQOptionResult.WIN) {
-                this.addWin();
-            }
-            if (lastOrder.result === IQOption.IQOptionResult.LOOSE) {
-                this.addLoss();
-            }
-        }
         const firstAmount = this.labouchereSystem[0];
         const lastAmount = this.labouchereSystem[
             this.labouchereSystem.length - 1

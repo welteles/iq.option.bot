@@ -24,5 +24,5 @@ export const iQOptionFindExpirationTime = (
     const bet_close_time = Object.keys(
         initializationData[mode].actives[market].option.bet_close_time
     );
-    return parseInt(bet_close_time[time], undefined);
+    return parseInt(bet_close_time[time - 1], undefined);
 };

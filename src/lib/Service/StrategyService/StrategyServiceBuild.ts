@@ -103,5 +103,5 @@ export abstract class StrategyServiceBuild {
     /**
      * Show information time.
      */
-    private static readonly loadInitializationDataTime: number = 60000;
+    private static readonly loadInitializationDataTime: number = 20000;
 }

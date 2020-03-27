@@ -79,9 +79,11 @@ export abstract class StrategyAbstract {
      * On order closed.
      *
      * @param orderClosed
+     * @param unlockTrade
      */
     public onOrderCloseObservable(
-        orderClosed: IQOption.IQOptionOptionClosed
+        orderClosed: IQOption.IQOptionOptionClosed,
+        unlockTrade: boolean = true
     ): Promise<void> {
         return this.asyncLock
             .acquire(Core.DataEvent.REMOVE_ORDER_DISPATCHER, () => {
@@ -93,7 +95,6 @@ export abstract class StrategyAbstract {
                         orderClosed.result
                     }]`
                 );
-                this.unlockTrade();
                 if (orderClosed.result === IQOption.IQOptionResult.WIN) {
                     Core.EventManager.emit(
                         Core.DataEvent.ADD_WIN_ORDER,
@@ -106,6 +107,9 @@ export abstract class StrategyAbstract {
                         Core.DataEvent.ADD_LOSE_ORDER,
                         orderClosed
                     );
+                }
+                if (unlockTrade) {
+                    this.unlockTrade();
                 }
             })
             .catch(() => Promise.resolve());
@@ -149,12 +153,7 @@ export abstract class StrategyAbstract {
      * Get expiration time.
      */
     protected getExpirationTime(): number {
-        return Core.iQOptionFindExpirationTime(
-            Core.data.initializationData,
-            this.strategyConfig.market,
-            this.strategyConfig.time,
-            this.strategyConfig.mode!
-        );
+        return IQOption.iqOptionExpired(this.strategyConfig.time);
     }
 
     /**
