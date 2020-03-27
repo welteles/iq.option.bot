@@ -35,4 +35,24 @@ export enum TechnicalAnalysisPeriod {
      * Period 1 hour.
      */
     PERIOD_1H = "PERIOD_1H",
+
+    /**
+     * Period 4 hour.
+     */
+    PERIOD_5H = "PERIOD_5H",
+
+    /**
+     * Period day.
+     */
+    PERIOD_DAY = "PERIOD_DAY",
+
+    /**
+     * Period week.
+     */
+    PERIOD_WEEK = "PERIOD_WEEK",
+
+    /**
+     * Period month.
+     */
+    PERIOD_MONTH = "PERIOD_MONTH",
 }

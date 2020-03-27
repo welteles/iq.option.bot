@@ -6,6 +6,7 @@
  *
  * Proprietary and confidential.
  */
+import * as IQOption from "iqoption.client";
 import * as Core from "../..";
 import { TechnicalAnalysis } from "./";
 
@@ -17,9 +18,11 @@ export class TechnicalAnalysisFactory {
      * Create indicator.
      *
      * @param technicalAnalysisConfig
+     * @param market
      */
     public static createIndicator(
-        technicalAnalysisConfig: Core.ITechnicalAnalysisConfig
+        technicalAnalysisConfig: Core.ITechnicalAnalysisConfig,
+        market: IQOption.IQOptionMarket
     ): Promise<void> {
         Core.logger().silly(
             `${Core.timestampHelper()} TechnicalAnalysisFactory::createIndicator[${
@@ -28,7 +31,8 @@ export class TechnicalAnalysisFactory {
         );
         return Promise.resolve(
             this.indicators[technicalAnalysisConfig.technicalAnalysis](
-                technicalAnalysisConfig
+                technicalAnalysisConfig,
+                market
             )
         );
     }
@@ -37,10 +41,12 @@ export class TechnicalAnalysisFactory {
      */
     private static readonly indicators: any = {
         [TechnicalAnalysis.INVESTING]: (
-            technicalAnalysisConfig: Core.ITechnicalAnalysisConfig
-        ) => new Core.InvestingService(technicalAnalysisConfig),
+            technicalAnalysisConfig: Core.ITechnicalAnalysisConfig,
+            market: IQOption.IQOptionMarket
+        ) => new Core.InvestingService(technicalAnalysisConfig, market),
         [TechnicalAnalysis.TRADINGVIEW]: (
-            technicalAnalysisConfig: Core.ITechnicalAnalysisConfig
-        ) => new Core.InvestingService(technicalAnalysisConfig),
+            technicalAnalysisConfig: Core.ITechnicalAnalysisConfig,
+            market: IQOption.IQOptionMarket
+        ) => new Core.InvestingService(technicalAnalysisConfig, market),
     };
 }

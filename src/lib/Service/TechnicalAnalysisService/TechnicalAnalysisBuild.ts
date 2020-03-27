@@ -30,7 +30,8 @@ export abstract class TechnicalAnalysisBuild {
             (technicalAnalysisConfig) =>
                 technicalAnalysis.push(
                     Core.TechnicalAnalysisFactory.createIndicator(
-                        technicalAnalysisConfig
+                        technicalAnalysisConfig,
+                        Core.global.config.strategy.market
                     )
                 )
         );

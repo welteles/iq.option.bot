@@ -13,13 +13,14 @@ import * as IQOption from "iqoption.client";
  *
  * @param initializationData
  * @param market
+ * @param mode
  */
 export const iQOptionFindProfitPercent = (
     initializationData: IQOption.IQOptionInitializationData,
     market: number,
     mode: IQOption.IQOptionMode
 ): number => {
-    const comission =
+    const commission =
         initializationData[mode].actives[market].option.profit.commission;
-    return 100 - comission;
+    return 100 - commission;
 };
