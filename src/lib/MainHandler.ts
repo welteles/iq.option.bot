@@ -21,6 +21,6 @@ export class MainHandler {
             .then(() => Core.EventManager.build())
             .then(() => Core.StrategyServiceBuild.build())
             .then(() => Core.Strategy().runStrategy())
-            .catch(e => Promise.reject(e));
+            .catch((e) => Promise.reject(e));
     }
 }

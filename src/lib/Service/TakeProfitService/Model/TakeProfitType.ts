@@ -19,5 +19,5 @@ export enum TakeProfitType {
     /**
      * Percent.
      */
-    PERCENT = "PERCENT"
+    PERCENT = "PERCENT",
 }

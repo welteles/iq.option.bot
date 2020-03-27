@@ -22,6 +22,6 @@ export abstract class IQOptionBuild {
         );
         return Core.IQOptionFactory.createInstance(Core.global.config.account)
             .then(() => Promise.resolve())
-            .catch(e => Promise.reject(e));
+            .catch((e) => Promise.reject(e));
     }
 }

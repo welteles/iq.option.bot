@@ -76,11 +76,11 @@ export abstract class StrategyServiceBuild {
                     Core.ScheduleManager.registerSchedule(
                         Core.StrategyEvent.LOAD_INITIALIZATION_DATA,
                         StrategyServiceBuild.loadInitializationDataTime
-                    )
+                    ),
                 ])
             )
             .then(() => Promise.resolve())
-            .catch(e => Promise.reject(e));
+            .catch((e) => Promise.reject(e));
     }
 
     /**

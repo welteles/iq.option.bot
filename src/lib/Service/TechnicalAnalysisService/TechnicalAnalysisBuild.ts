@@ -26,20 +26,21 @@ export abstract class TechnicalAnalysisBuild {
             return Promise.resolve();
         }
         const technicalAnalysis: any = [];
-        Core.global.config.technicalAnalysis.forEach(technicalAnalysisConfig =>
-            technicalAnalysis.push(
-                Core.TechnicalAnalysisFactory.createIndicator(
-                    technicalAnalysisConfig,
-                    Core.global.config.strategy.market
+        Core.global.config.technicalAnalysis.forEach(
+            (technicalAnalysisConfig) =>
+                technicalAnalysis.push(
+                    Core.TechnicalAnalysisFactory.createIndicator(
+                        technicalAnalysisConfig,
+                        Core.global.config.strategy.market
+                    )
                 )
-            )
         );
         return Promise.all(technicalAnalysis)
             .then(
                 (technicalAnalysisConfig: any) =>
                     new Core.TechnicalAnalysisService(technicalAnalysisConfig)
             )
-            .then(indicator =>
+            .then((indicator) =>
                 Core.EventManager.registerEvent(
                     Core.TechnicalAnalysisEvent.TECHNICAL_ANALYSIS_CHECK,
                     () => indicator.checkIndicator()
@@ -52,7 +53,7 @@ export abstract class TechnicalAnalysisBuild {
                 )
             )
             .then(() => Promise.resolve())
-            .catch(e => Promise.reject(e));
+            .catch((e) => Promise.reject(e));
     }
 
     /**

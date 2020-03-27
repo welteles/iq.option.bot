@@ -23,7 +23,7 @@ export abstract class StrategyAbstract {
      * Async lock.
      */
     protected readonly asyncLock: AsyncLock = new AsyncLock({
-        maxPending: 1
+        maxPending: 1,
     });
 
     /**
@@ -213,12 +213,12 @@ export abstract class StrategyAbstract {
         return candleStream
             .startStream()
             .then(() =>
-                candleStream.on("data", data =>
+                candleStream.on("data", (data) =>
                     Core.EventManager.emit(Core.DataEvent.UPDATE_CANDLE, data)
                 )
             )
             .then(() => Promise.resolve())
-            .catch(e => Promise.reject(e));
+            .catch((e) => Promise.reject(e));
     }
 
     /**
@@ -235,11 +235,11 @@ export abstract class StrategyAbstract {
         return closeOrdersStream
             .startStream()
             .then(() =>
-                closeOrdersStream.on("data", data =>
+                closeOrdersStream.on("data", (data) =>
                     Core.EventManager.emit(Core.DataEvent.REMOVE_ORDER, data)
                 )
             )
             .then(() => Promise.resolve())
-            .catch(e => Promise.reject(e));
+            .catch((e) => Promise.reject(e));
     }
 }

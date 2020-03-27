@@ -19,5 +19,5 @@ export enum StopLossType {
     /**
      * Percent.
      */
-    PERCENT = "PERCENT"
+    PERCENT = "PERCENT",
 }

@@ -89,14 +89,14 @@ export class DataService {
             this.maxOrderHistory
         );
         const index = Core.data.ordersOpen.findIndex(
-            f => f.option_id === order.option_id
+            (f) => f.option_id === order.option_id
         );
         if (index === -1) {
             return;
         }
         delete Core.data.ordersOpen[index];
         Core.data.ordersOpen = Core.data.ordersOpen.filter(
-            item => item !== undefined
+            (item) => item !== undefined
         );
         Core.EventManager.emit(Core.DataEvent.REMOVE_ORDER_DISPATCHER, order);
         await this.dataUpdateObsevable();
@@ -150,7 +150,7 @@ export class DataService {
             ordersOpen: Core.data.ordersOpen,
             win: Core.data.win,
             lose: Core.data.lose,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
         });
     }
 

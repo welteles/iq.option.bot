@@ -10,4 +10,4 @@ import * as Core from "../lib";
 new Core.MainHandler()
     .startStrategy()
     .then()
-    .catch(e => Core.logger().error(JSON.stringify(e)));
+    .catch((e) => Core.logger().error(JSON.stringify(e)));

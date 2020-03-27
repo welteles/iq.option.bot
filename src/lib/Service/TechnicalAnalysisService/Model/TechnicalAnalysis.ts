@@ -19,5 +19,5 @@ export enum TechnicalAnalysis {
     /**
      * tradingview.com
      */
-    TRADINGVIEW = "TRADINGVIEW"
+    TRADINGVIEW = "TRADINGVIEW",
 }

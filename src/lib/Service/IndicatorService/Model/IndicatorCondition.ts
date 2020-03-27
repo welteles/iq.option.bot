@@ -39,5 +39,5 @@ export enum IndicatorCondition {
     /**
      * Condtion (!=).
      */
-    NOT_EQUAL_TO = "NOT_EQUAL_TO"
+    NOT_EQUAL_TO = "NOT_EQUAL_TO",
 }

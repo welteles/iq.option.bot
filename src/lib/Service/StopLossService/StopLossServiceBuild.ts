@@ -27,10 +27,10 @@ export abstract class StopLossServiceBuild {
             Core.EventManager.registerEvent(
                 Core.StopLossEvent.STOP_LOSS_OBSERVABLE,
                 () => stopLossService.stopLossObservable()
-            )
+            ),
         ])
             .then(() => Promise.resolve())
-            .catch(e => Promise.reject(e));
+            .catch((e) => Promise.reject(e));
     }
 
     /**

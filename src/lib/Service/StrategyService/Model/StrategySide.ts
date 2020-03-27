@@ -3,5 +3,5 @@
  */
 export enum StrategySide {
     BUY = "BUY",
-    SELL = "SELL"
+    SELL = "SELL",
 }

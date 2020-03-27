@@ -52,9 +52,9 @@ export abstract class DataServiceBuild {
             Core.EventManager.registerEvent(
                 Core.DataEvent.UPDATE_CANDLE,
                 (candle: any) => dataService.updateCandle(candle.shift())
-            )
+            ),
         ])
             .then(() => Promise.resolve())
-            .catch(e => Promise.reject());
+            .catch((e) => Promise.reject());
     }
 }

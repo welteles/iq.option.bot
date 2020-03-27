@@ -27,7 +27,7 @@ export abstract class IndicatorServiceBuild {
         }
         const conditions: any = [];
         const indicator = Core.global.config.indicator;
-        indicator.conditions.forEach(conditionConfig =>
+        indicator.conditions.forEach((conditionConfig) =>
             conditions.push(
                 Core.IndicatorFactory.createIndicator(conditionConfig)
             )
@@ -37,7 +37,7 @@ export abstract class IndicatorServiceBuild {
                 (condition: any) =>
                     new Core.IndicatorService(condition, indicator.minCandles)
             )
-            .then(indicatorService =>
+            .then((indicatorService) =>
                 Core.EventManager.registerEvent(
                     Core.DataEvent.UPDATE_CANDLE_DISPATCHER,
                     (candles: any) =>
@@ -45,7 +45,7 @@ export abstract class IndicatorServiceBuild {
                 )
             )
             .then(() => Promise.resolve())
-            .catch(e => Promise.reject(e));
+            .catch((e) => Promise.reject(e));
     }
 
     /**

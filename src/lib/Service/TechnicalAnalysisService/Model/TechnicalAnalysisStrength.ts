@@ -19,5 +19,5 @@ export enum TechnicalAnalysisStrength {
     /**
      * Strength high.
      */
-    HIGH = "HIGH"
+    HIGH = "HIGH",
 }

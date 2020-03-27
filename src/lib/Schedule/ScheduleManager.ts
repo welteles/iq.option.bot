@@ -32,7 +32,7 @@ export abstract class ScheduleManager {
                 `${Core.timestampHelper()} ScheduleManager::registerSchedule[${eventName}]`
             );
             ScheduleManager.schedules[eventName] = {
-                updateTime
+                updateTime,
             };
         }
     }
@@ -44,7 +44,7 @@ export abstract class ScheduleManager {
         Core.logger().silly(
             `${Core.timestampHelper()} ScheduleManager::listenerSchedule`
         );
-        Object.keys(ScheduleManager.schedules).forEach(eventName => {
+        Object.keys(ScheduleManager.schedules).forEach((eventName) => {
             const event = eventName as any;
             ScheduleManager.schedules[event].action = setInterval(
                 () => Core.EventManager.emit(event),
