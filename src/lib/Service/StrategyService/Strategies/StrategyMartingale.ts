@@ -35,6 +35,9 @@ export class StrategyMartingale extends StrategyAbstract
         orderClosed: IQOption.IQOptionOptionClosed
     ): Promise<void> {
         return super.onOrderCloseObservable(orderClosed, false).then(() => {
+            if (!this.isThatMarket(orderClosed.active_id)) {
+                return Promise.resolve();
+            }
             const lastOrder = Core.data.ordersHistory[0];
             if (lastOrder.result === IQOption.IQOptionResult.WIN) {
                 this.resetLosses();

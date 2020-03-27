@@ -234,7 +234,7 @@ export abstract class StrategyAbstract {
      *
      * @param market
      */
-    private isThatMarket(market: IQOption.IQOptionMarket): boolean {
+    protected isThatMarket(market: IQOption.IQOptionMarket): boolean {
         return this.strategyConfig.market === market;
     }
 
