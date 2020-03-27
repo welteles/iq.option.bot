@@ -25,8 +25,14 @@ export enum StrategyType {
      * Strategy Martingale.
      */
     MARTINGALE = "MARTINGALE",
+
     /**
      * Strategy Anti Martingale.
      */
     REVERSE_MARTINGALE = "REVERSE_MARTINGALE",
+
+    /**
+     * Strategy Labouchere.
+     */
+    LABOUCHERE = "LABOUCHERE",
 }

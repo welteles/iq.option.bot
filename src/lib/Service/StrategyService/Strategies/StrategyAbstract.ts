@@ -89,7 +89,7 @@ export abstract class StrategyAbstract {
                     return Promise.resolve();
                 }
                 Core.logger().info(
-                    `${Core.timestampHelper()} StrategyMartingale::onOrderCloseObservable RESULT[${
+                    `${Core.timestampHelper()} StrategyAbstract:onOrderCloseObservable RESULT[${
                         orderClosed.result
                     }]`
                 );
@@ -166,6 +166,50 @@ export abstract class StrategyAbstract {
             this.strategyConfig.market,
             this.strategyConfig.mode!
         );
+    }
+
+    /**
+     * No has order history.
+     */
+    protected noHasOrderHistory(): boolean {
+        return (
+            Core.data.ordersHistory === undefined ||
+            Core.data.ordersHistory.length === 0
+        );
+    }
+
+    /**
+     * Create position.
+     *
+     * @param amount
+     */
+    protected createPosition(amount: number): Promise<void> {
+        const signal = Core.StrategyEngine.getIndicatorSide();
+        Core.logger().info(
+            `${Core.timestampHelper()} StrategyAbstract:createPosition TARGET[${signal}]`
+        );
+        const iqOptionSide =
+            signal === Core.StrategySide.BUY
+                ? IQOption.IQOptionModel.BUY
+                : IQOption.IQOptionModel.SELL;
+        return Core.IQOptionApi()
+            .sendOrderBinary(
+                this.strategyConfig.market,
+                iqOptionSide,
+                this.getExpirationTime(),
+                Core.data.balance.id,
+                this.getProfitPercent(),
+                amount
+            )
+            .then((order: any) => {
+                this.lockTrade();
+                Core.EventManager.emit(Core.DataEvent.ADD_ORDER, order);
+            })
+            .then(() => Promise.resolve())
+            .catch((e: any) => {
+                Core.logger().error(JSON.stringify(e));
+                return Promise.resolve();
+            });
     }
 
     /**

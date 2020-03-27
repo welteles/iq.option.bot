@@ -59,6 +59,11 @@ export interface IStrategyConfig {
     martingaleMaxAttempts?: number;
 
     /**
+     * Labouchere Size.
+     */
+    labouchereSize?: number;
+
+    /**
      * IQoption mode.
      */
     mode?: IQOption.IQOptionMode;

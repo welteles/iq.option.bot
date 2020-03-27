@@ -11,4 +11,5 @@ export * from "./StrategyMartingale";
 export * from "./StrategySimple";
 export * from "./StrategySoros";
 export * from "./StrategyReverseMartingale";
+export * from "./StrategyLabouchere";
 export * from "./StrategyAbstract";

@@ -57,6 +57,8 @@ export class StrategyFactory {
         [StrategyType.REVERSE_MARTINGALE]: (
             strategyConfig: Core.IStrategyConfig
         ) => new Core.StrategyReverseMartingale(strategyConfig),
+        [StrategyType.LABOUCHERE]: (strategyConfig: Core.IStrategyConfig) =>
+            new Core.StrategyLabouchere(strategyConfig),
     };
 }
 

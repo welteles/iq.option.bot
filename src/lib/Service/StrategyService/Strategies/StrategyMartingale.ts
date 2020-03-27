@@ -35,36 +35,12 @@ export class StrategyMartingale extends StrategyAbstract
                 if (!this.isTradeEnable()) {
                     return Promise.resolve();
                 }
-                const signal = Core.StrategyEngine.getIndicatorSide();
-                Core.logger().info(
-                    `${Core.timestampHelper()} StrategyMartingale:indicatorObservable TARGET[${signal}]`
-                );
-                const iqOptionSide =
-                    signal === Core.StrategySide.BUY
-                        ? IQOption.IQOptionModel.BUY
-                        : IQOption.IQOptionModel.SELL;
-                const nextTarget = await this.createNextTarget(
-                    this.getAmount(),
-                    this.getProfitPercent()
-                );
-                return Core.IQOptionApi()
-                    .sendOrderBinary(
-                        this.strategyConfig.market,
-                        iqOptionSide,
-                        this.getExpirationTime(),
-                        Core.data.balance.id,
-                        this.getProfitPercent(),
-                        nextTarget
+                return this.createPosition(
+                    this.createNextTarget(
+                        this.getAmount(),
+                        this.getProfitPercent()
                     )
-                    .then((order: any) => {
-                        this.lockTrade();
-                        Core.EventManager.emit(Core.DataEvent.ADD_ORDER, order);
-                    })
-                    .then(() => Promise.resolve())
-                    .catch((e: any) => {
-                        Core.logger().error(JSON.stringify(e));
-                        return Promise.resolve();
-                    });
+                );
             })
             .catch(() => Promise.resolve());
     }
@@ -75,10 +51,10 @@ export class StrategyMartingale extends StrategyAbstract
      * @param amountCalculated
      * @param percentGain
      */
-    private async createNextTarget(
+    private createNextTarget(
         amountCalculated: number,
         percentGain: number
-    ): Promise<number> {
+    ): number {
         if (this.noHasOrderHistory() || this.isMaxAttempts()) {
             this.resetLosses();
             return amountCalculated;
@@ -133,15 +109,5 @@ export class StrategyMartingale extends StrategyAbstract
      */
     private addLoss(): void {
         this.losses++;
-    }
-
-    /**
-     * No has order history.
-     */
-    private noHasOrderHistory(): boolean {
-        return (
-            Core.data.ordersHistory === undefined ||
-            Core.data.ordersHistory.length === 0
-        );
     }
 }
