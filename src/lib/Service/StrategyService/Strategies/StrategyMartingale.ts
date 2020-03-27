@@ -27,6 +27,26 @@ export class StrategyMartingale extends StrategyAbstract
     private martingaleMaxAttempts: number = 4;
 
     /**
+     * On order closed.
+     *
+     * @param orderClosed
+     */
+    public onOrderCloseObservable(
+        orderClosed: IQOption.IQOptionOptionClosed
+    ): Promise<void> {
+        return super.onOrderCloseObservable(orderClosed, false).then(() => {
+            const lastOrder = Core.data.ordersHistory[0];
+            if (lastOrder.result === IQOption.IQOptionResult.WIN) {
+                this.resetLosses();
+            }
+            if (lastOrder.result === IQOption.IQOptionResult.LOOSE) {
+                this.addLoss();
+            }
+            this.unlockTrade();
+        });
+    }
+
+    /**
      * Indicator observable.
      */
     public indicatorObservable(): Promise<void> {
@@ -61,19 +81,17 @@ export class StrategyMartingale extends StrategyAbstract
         }
         const lastOrder = Core.data.ordersHistory[0];
         if (lastOrder.result === IQOption.IQOptionResult.WIN) {
-            this.resetLosses();
             return amountCalculated;
         }
         let lossSum = 0;
         let totalOrders = 0;
         for (const order of Core.data.ordersHistory) {
-            lossSum = new BigNumber(lossSum).plus(order.amount).toNumber();
             if (totalOrders === this.losses) {
                 break;
             }
+            lossSum = new BigNumber(lossSum).plus(order.amount).toNumber();
             totalOrders++;
         }
-        this.addLoss();
         const profit = new BigNumber(amountCalculated)
             .times(percentGain)
             .div(100)
