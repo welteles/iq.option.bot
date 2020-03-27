@@ -40,15 +40,15 @@ export class StrategyEngine {
                 Core.EventManager.emit(Core.StrategyEvent.NEW_TARGET);
             }
         }
-        if (Core.TechnicalAnalysisBuild.haveTechnicalAnalysis()) {
-            Core.enableStrategyInformation();
-            StrategyEngine.indicatorSide = Core.TechnicalAnalysisService.getIndicatorSide();
-            if (
-                StrategyEngine.indicatorSide === Core.StrategySide.BUY ||
-                StrategyEngine.indicatorSide === Core.StrategySide.SELL
-            ) {
-                Core.EventManager.emit(Core.StrategyEvent.NEW_TARGET);
-            }
-        }
+        // if (Core.TechnicalAnalysisBuild.haveTechnicalAnalysis()) {
+        //     Core.enableStrategyInformation();
+        //     StrategyEngine.indicatorSide = Core.TechnicalAnalysisService.getIndicatorSide();
+        //     if (
+        //         StrategyEngine.indicatorSide === Core.StrategySide.BUY ||
+        //         StrategyEngine.indicatorSide === Core.StrategySide.SELL
+        //     ) {
+        //         Core.EventManager.emit(Core.StrategyEvent.NEW_TARGET);
+        //     }
+        // }
     }
 }

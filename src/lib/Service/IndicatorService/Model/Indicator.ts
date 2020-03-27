@@ -14,4 +14,5 @@ export enum Indicator {
     GRAPHICAL_ANALYSIS = "GRAPHICAL_ANALYSIS",
     RSI = "RSI",
     MACD = "MACD",
+    BBANDS = "BBANDS",
 }

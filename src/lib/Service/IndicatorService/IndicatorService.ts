@@ -73,6 +73,7 @@ export class IndicatorService {
     public checkIndicator(candles: Core.ICandle): void {
         let indicatorResponse: Core.StrategySide | boolean = false;
         IndicatorService.candles = candles;
+
         if (!IndicatorService.isCandlesMinimum()) {
             this.messageLoadCandles();
             return;

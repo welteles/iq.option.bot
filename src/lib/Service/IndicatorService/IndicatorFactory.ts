@@ -41,5 +41,7 @@ export class IndicatorFactory {
             new Core.IndicatorRSI(conditionConfig),
         [Indicator.MACD]: (conditionConfig: Core.IConditionConfig) =>
             new Core.IndicatorMACD(conditionConfig),
+        [Indicator.BBANDS]: (conditionConfig: Core.IConditionConfig) =>
+            new Core.IndicatorBBANDS(conditionConfig),
     };
 }

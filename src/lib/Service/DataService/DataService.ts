@@ -108,11 +108,18 @@ export class DataService {
      * @param candle
      */
     public updateCandle(candle: IQOption.IQOptionCandle) {
-        if (this.isNewCandle(candle)) {
-            Core.data.candles.high.unshift(candle.max);
-            Core.data.candles.low.unshift(candle.min);
+        if ( ! this.isNewCandle( candle ) ) {
+            Core.data.candles.close.shift();
+            Core.data.candles.high.shift();
+            Core.data.candles.low.shift();
+        }
+
+        Core.data.candles.high.unshift(candle.max);
+        Core.data.candles.low.unshift(candle.min);
+        Core.data.candles.close.unshift(candle.close);
+
+        if ( this.isNewCandle(candle) ) {
             Core.data.candles.open.unshift(candle.open);
-            Core.data.candles.close.unshift(candle.close);
             Core.data.candles.high = Core.data.candles.high.slice(
                 0,
                 this.maxCandles
@@ -130,12 +137,49 @@ export class DataService {
                 this.maxCandles
             );
             this.lastCandleFrom = candle.from;
-            Core.EventManager.emit(
-                Core.DataEvent.UPDATE_CANDLE_DISPATCHER,
-                Core.data.candles
-            );
         }
+        Core.EventManager.emit(
+            Core.DataEvent.UPDATE_CANDLE_DISPATCHER,
+            Core.data.candles
+        );
     }
+
+    // public updateCandle(candle: IQOption.IQOptionCandle) {
+    //     if ( ! this.isNewCandle( candle ) ) {
+    //         Core.data.candles.close.shift();
+    //         Core.data.candles.high.shift();
+    //         Core.data.candles.low.shift();
+    //     }
+    //
+    //     Core.data.candles.high.unshift(candle.max);
+    //     Core.data.candles.low.unshift(candle.min);
+    //     Core.data.candles.close.unshift(candle.close);
+    //
+    //     if ( this.isNewCandle(candle) ) {
+    //         Core.data.candles.open.unshift(candle.open);
+    //         Core.data.candles.high = Core.data.candles.high.slice(
+    //             0,
+    //             this.maxCandles
+    //         );
+    //         Core.data.candles.low = Core.data.candles.low.slice(
+    //             0,
+    //             this.maxCandles
+    //         );
+    //         Core.data.candles.open = Core.data.candles.open.slice(
+    //             0,
+    //             this.maxCandles
+    //         );
+    //         Core.data.candles.close = Core.data.candles.close.slice(
+    //             0,
+    //             this.maxCandles
+    //         );
+    //         this.lastCandleFrom = candle.from;
+    //     }
+    //     Core.EventManager.emit(
+    //         Core.DataEvent.UPDATE_CANDLE_DISPATCHER,
+    //         Core.data.candles
+    //     );
+    // }
 
     /**
      * Data update observable.
@@ -155,9 +199,6 @@ export class DataService {
      * @param candle
      */
     private isNewCandle(candle: IQOption.IQOptionCandle): boolean {
-        return (
-            Core.data.candles.high.length === 0 ||
-            this.lastCandleFrom !== candle.from
-        );
+        return ( this.lastCandleFrom !== candle.from );
     }
 }
