@@ -109,7 +109,11 @@ export class DataService {
      */
     public updateCandle(candle: IQOption.IQOptionCandle) {
         if (!this.isNewCandle(candle)) {
-            return;
+            Core.data.candles.open.shift();
+            Core.data.candles.high.shift();
+            Core.data.candles.low.shift();
+            Core.data.candles.volume.shift();
+            Core.data.candles.close.shift();
         }
         this.lastCandleFrom = candle.from;
         Core.data.candles.open.unshift(candle.open);
