@@ -42,17 +42,19 @@ export class IndicatorMACD implements Core.IIndicator {
                 optInSignalPeriod: this.conditionConfig.periods[2]
             })
             .result;
-            const line = macd.outMACD.reverse()[0];
-            const signal = macd.outMACDSignal.reverse()[0];
+            const macdLine = macd.outMACD.reverse();
+            const macdSignal = macd.outMACDSignal.reverse();
         if (
             this.conditionConfig.sellEntry !== undefined &&
-            line < signal
+            (macdLine[0] - macdSignal[0]) < 0 &&
+            (macdLine[1] - macdSignal[1]) > 0
         ) {
             return Core.StrategySide.SELL;
         }
         if (
             this.conditionConfig.buyEntry !== undefined &&
-            line > signal
+            (macdLine[0] - macdSignal[0]) > 0 &&
+            (macdLine[1] - macdSignal[1]) < 0
         ) {
             return Core.StrategySide.BUY;
         }
