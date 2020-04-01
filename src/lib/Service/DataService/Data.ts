@@ -17,9 +17,10 @@ export const data: Core.IData = {
     ordersHistory: [],
     profile: {},
     candles: {
+        open: [],
         high: [],
         low: [],
-        open: [],
+        volume: [],
         close: [],
     },
     win: [],
