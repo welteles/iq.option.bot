@@ -29,7 +29,7 @@ export interface ICandle {
     /**
      * Volume.
      */
-    volume: number[]
+    volume: number[];
 
     /**
      * Close.

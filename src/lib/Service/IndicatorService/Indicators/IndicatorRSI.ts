@@ -31,13 +31,15 @@ export class IndicatorRSI implements Core.IIndicator {
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide | boolean {
-        const rsi = talib.execute({
-            name: "RSI",
-            startIdx: 0,
-            endIdx: candles.close.length - 1,
-            inReal: candles.close.reverse(),
-            optInTimePeriod: this.conditionConfig.periods[0],
-        }).result.outReal.reverse()[0];
+        const rsi = talib
+            .execute({
+                name: "RSI",
+                startIdx: 0,
+                endIdx: candles.close.length - 1,
+                inReal: candles.close,
+                optInTimePeriod: this.conditionConfig.periods[0],
+            })
+            .result.outReal.reverse()[0];
         if (
             this.conditionConfig.sellEntry !== undefined &&
             rsi >= this.conditionConfig.sellEntry
