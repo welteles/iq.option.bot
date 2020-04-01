@@ -121,7 +121,6 @@ export class DataService {
         Core.data.candles.low.push(candle.min);
         Core.data.candles.volume.push(candle.volume);
         Core.data.candles.close.push(candle.close);
-        console.log(JSON.stringify(Core.data.candles.close));
         Core.data.candles.open = Core.data.candles.open
             .reverse()
             .slice(0, this.maxCandles)

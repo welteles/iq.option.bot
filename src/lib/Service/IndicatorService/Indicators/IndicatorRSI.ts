@@ -33,7 +33,7 @@ export class IndicatorRSI implements Core.IIndicator {
     public checkCondition(candles: Core.ICandle): Core.StrategySide | boolean {
         const rsi = talib
             .execute({
-                name: "RSI",
+                name: Core.Indicator.RSI,
                 startIdx: 0,
                 endIdx: candles.close.length - 1,
                 inReal: candles.close,
