@@ -5,14 +5,28 @@
     },
     "strategy": {
         "strategy": "MARTINGALE",
-        "balanceAvailable": 10000,
-        "balanceInCurrency": "USD",
+        "balanceAvailable": 200,
+        "balanceInCurrency": "BRL",
         "valueType": "PERCENT",
         "value": 1,
         "market": 1,
-        "time": 3,
+        "time": 1,
         "test": true,
-        "martingaleMaxAttempts": 10
+        "martingaleMaxAttempts": 6
+    },
+    "indicator": {
+        "time": 5,
+        "minCandles": 28,
+        "conditions": [
+            {
+                "indicator": "ADX",
+                "periods": [14]
+            },
+            {
+                "indicator": "ATR",
+                "periods": [14]
+            }
+        ]
     },
     "technicalAnalysis": [
         {

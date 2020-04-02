@@ -55,6 +55,16 @@ export class IndicatorService {
     private messageLoadCandlesEnable: boolean = true;
 
     /**
+     * Strategy.
+     */
+    private technicalIndicators: any[];
+
+    /**
+     * movingAverage.
+     */
+    private movingAverage: any[];
+
+    /**
      * Indicator Service.
      *
      * @param indicators
@@ -62,6 +72,8 @@ export class IndicatorService {
      */
     public constructor(indicators: Core.IIndicator[], minCandles: number) {
         this.indicators = indicators;
+        this.technicalIndicators = [];
+        this.movingAverage = [];
         IndicatorService.minCandles = minCandles;
     }
 
@@ -78,6 +90,8 @@ export class IndicatorService {
             return;
         }
         IndicatorService.indicatorSide = false;
+        this.technicalIndicators = [];
+        this.movingAverage = [];
         for (const indicator of this.indicators) {
             const condition = indicator.checkCondition(candles);
             if (!condition) {
@@ -92,7 +106,11 @@ export class IndicatorService {
                 break;
             }
             indicatorResponse = condition;
+            this.technicalIndicators.push( condition );
         }
+        console.log(this.technicalIndicators);
+        console.log(this.movingAverage);
+
         if (
             indicatorResponse === Core.StrategySide.BUY ||
             indicatorResponse === Core.StrategySide.SELL

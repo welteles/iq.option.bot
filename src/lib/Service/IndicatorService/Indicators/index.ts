@@ -8,6 +8,9 @@
  */
 
 export * from "./IndicatorRSI";
+export * from "./IndicatorATR";
+export * from "./IndicatorADX";
 export * from "./IndicatorMACD";
 export * from "./IndicatorBBANDS";
+export * from "./IndicatorSTOCH";
 export * from "./IndicatorGraphicalAnalysis";

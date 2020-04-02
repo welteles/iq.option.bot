@@ -38,7 +38,9 @@ export class StrategyLabouchere extends StrategyAbstract
                 if (this.isResetSystem()) {
                     this.makeSystem();
                 }
-                return this.createPosition(this.createNextTarget());
+                const position = this.createPosition(this.createNextTarget());
+                console.log(this.labouchereSystem);
+                return position;
             })
             .catch(() => Promise.resolve());
     }

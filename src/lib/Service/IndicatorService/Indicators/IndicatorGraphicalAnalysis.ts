@@ -12,6 +12,12 @@ import * as Core from "../../..";
  * Indicator condition.
  */
 export class IndicatorGraphicalAnalysis implements Core.IIndicator {
+
+    /**
+     * Indicator config.
+     */
+    public index: boolean | number;
+
     /**
      * Indicator config.
      */
@@ -24,18 +30,19 @@ export class IndicatorGraphicalAnalysis implements Core.IIndicator {
      */
     public constructor(conditionConfig: Core.IConditionConfig) {
         this.conditionConfig = conditionConfig;
+        this.index = false;
     }
 
     /**
      * Check condition.
      */
-    public checkCondition(candles: Core.ICandle): Core.StrategySide | boolean {
+    public checkCondition(candles: Core.ICandle): Core.StrategySide {
         if (this.conditionConfig.sellEntry !== undefined) {
             return Core.StrategySide.SELL;
         }
         if (this.conditionConfig.buyEntry !== undefined) {
             return Core.StrategySide.BUY;
         }
-        return false;
+        return Core.StrategySide.NEUTRAL;
     }
 }

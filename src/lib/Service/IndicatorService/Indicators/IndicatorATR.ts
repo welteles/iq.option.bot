@@ -12,7 +12,7 @@ import * as Core from "../../..";
 /**
  * Indicator condition.
  */
-export class IndicatorRSI implements Core.IIndicator {
+export class IndicatorATR implements Core.IIndicator {
 
     /**
      * Indicator config.
@@ -38,26 +38,24 @@ export class IndicatorRSI implements Core.IIndicator {
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
+        const close = candles.close.slice(0, this.conditionConfig.periods[0]+1);
+        const high = candles.high.slice(0, this.conditionConfig.periods[0]+1);
+        const low = candles.low.slice(0, this.conditionConfig.periods[0]+1);
         const result = talib.execute({
-            name: "RSI",
+            name: "ATR",
             startIdx: 0,
-            endIdx: candles.close.slice(0, this.conditionConfig.periods[0]).length,
-            inReal: candles.close.slice(0, this.conditionConfig.periods[0]+1).reverse(),
+            endIdx: close.length-1,
+            close: close.reverse(),
+            high:high.reverse(),
+            low: low.reverse(),
             optInTimePeriod: this.conditionConfig.periods[0]
         });
-        const rsi = result.result.outReal[0];
-        if (
-            this.conditionConfig.sellEntry !== undefined &&
-            rsi >= this.conditionConfig.sellEntry
-        ) {
-            return Core.StrategySide.SELL;
+        const data = result.result.outReal[0];
+        const percentage = data/close[0]*100;
+        this.index = percentage;
+        if ( percentage > 0.01 ) {
+            return Core.StrategySide.HIGH;
         }
-        if (
-            this.conditionConfig.buyEntry !== undefined &&
-            rsi <= this.conditionConfig.buyEntry
-        ) {
-            return Core.StrategySide.BUY;
-        }
-        return Core.StrategySide.NEUTRAL;
+        return Core.StrategySide.LOW;
     }
 }

@@ -43,5 +43,11 @@ export class IndicatorFactory {
             new Core.IndicatorMACD(conditionConfig),
         [Indicator.BBANDS]: (conditionConfig: Core.IConditionConfig) =>
             new Core.IndicatorBBANDS(conditionConfig),
+        [Indicator.ATR]: (conditionConfig: Core.IConditionConfig) =>
+            new Core.IndicatorATR(conditionConfig),
+        [Indicator.ADX]: (conditionConfig: Core.IConditionConfig) =>
+            new Core.IndicatorADX(conditionConfig),
+        [Indicator.STOCH]: (conditionConfig: Core.IConditionConfig) =>
+            new Core.IndicatorSTOCH(conditionConfig),
     };
 }

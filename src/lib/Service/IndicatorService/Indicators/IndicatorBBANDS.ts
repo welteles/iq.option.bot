@@ -13,6 +13,12 @@ import * as Core from "../../..";
  * Indicator condition.
  */
 export class IndicatorBBANDS implements Core.IIndicator {
+
+    /**
+     * Indicator config.
+     */
+    public index: boolean | number;
+
     /**
      * Indicator config.
      */
@@ -25,12 +31,13 @@ export class IndicatorBBANDS implements Core.IIndicator {
      */
     public constructor(conditionConfig: Core.IConditionConfig) {
         this.conditionConfig = conditionConfig;
+        this.index = false;
     }
 
     /**
      * Check condition.
      */
-    public checkCondition(candles: Core.ICandle): Core.StrategySide | boolean {
+    public checkCondition(candles: Core.ICandle): Core.StrategySide {
         const bbands = talib.BBANDS(
             candles.close.slice(0, this.conditionConfig.periods[0]),
             this.conditionConfig.periods[0],
@@ -42,6 +49,6 @@ export class IndicatorBBANDS implements Core.IIndicator {
         if (candles.high[0] > bbands.highband[0]) {
             return Core.StrategySide.SELL;
         }
-        return false;
+        return Core.StrategySide.NEUTRAL;
     }
 }

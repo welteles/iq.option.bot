@@ -12,10 +12,16 @@ import * as Core from "../../..";
  * IIndicator.
  */
 export interface IIndicator {
+
+    /**
+     * Indicator config.
+     */
+    index: boolean | number;
+
     /**
      * Check condition candles.
      *
      * @param candles
      */
-    checkCondition(candles: Core.ICandle): Core.StrategySide | boolean;
+    checkCondition(candles: Core.ICandle): Core.StrategySide;
 }

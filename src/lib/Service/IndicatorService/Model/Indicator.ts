@@ -15,4 +15,7 @@ export enum Indicator {
     RSI = "RSI",
     MACD = "MACD",
     BBANDS = "BBANDS",
+    ATR = "ATR",
+    ADX = "ADX",
+    STOCH = "STOCH",
 }
