@@ -15,8 +15,8 @@
         "martingaleMaxAttempts": 6
     },
     "indicator": {
-        "time": 1,
-        "minCandles": 28,
+        "time": 60,
+        "minCandles": 5,
         "conditions": [
             {
                 "indicator": "ADX",
@@ -49,7 +49,9 @@
             {
                 "indicator": "STOCH",
                 "periods": [14],
-                "buyEntry": 60,
+                "oversoldEntry": 25,
+                "overboughtEntry": 75,
+                "buyEntry" : 60,
                 "sellEntry" : 40
             },
             {
@@ -71,6 +73,55 @@
                 "periods": [10],
                 "buyEntry": 50,
                 "sellEntry" : -50
+            },
+            {
+                "indicator": "MA",
+                "periods": [5]
+            },
+            {
+                "indicator": "MA",
+                "periods": [10]
+            },
+            {
+                "indicator": "MA",
+                "periods": [20]
+            },
+            {
+                "indicator": "MA",
+                "periods": [50]
+            },
+            {
+                "indicator": "MA",
+                "periods": [100]
+            },
+            {
+                "indicator": "MA",
+                "periods": [200]
+            },
+            {
+                "indicator": "EMA",
+                "periods": [5]
+            },
+            {
+                "indicator": "EMA",
+                "periods": [10]
+            },
+            {
+                "indicator": "EMA",
+                "periods": [20]
+            },
+            {
+                "indicator": "EMA",
+                "periods": [50]
+            },
+            {
+                "indicator": "EMA",
+                "periods": [100]
+            },
+            {
+                "indicator": "EMA",
+                "periods": [200]
+
             }
         ]
     },
