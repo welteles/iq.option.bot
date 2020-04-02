@@ -92,10 +92,18 @@ export class IndicatorService {
         IndicatorService.indicatorSide = false;
         this.technicalIndicators = [];
         this.movingAverage = [];
+        Core.logger().info(
+            `${Core.timestampHelper()} datetime`
+        );
         for (const indicator of this.indicators) {
             const condition = indicator.checkCondition(candles);
             indicatorResponse = condition;
-            this.technicalIndicators.push( condition );
+            console.log(indicator.constructor.name+' - '+ indicator.index);
+            if( indicator.constructor.name === 'IndicatorEMA' || indicator.constructor.name === 'IndicatorMA'){
+                this.movingAverage.push( condition );
+            } else {
+                this.technicalIndicators.push( condition );
+            }
         }
         console.log(this.technicalIndicators);
         console.log(this.movingAverage);

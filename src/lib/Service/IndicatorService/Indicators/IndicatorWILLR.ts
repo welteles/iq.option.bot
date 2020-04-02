@@ -53,6 +53,8 @@ export class IndicatorWILLR implements Core.IIndicator {
         const data = result.result.outReal[0];
         this.index = data;
 
+        this.index = data;
+
         if ( data >= -20 ) {
             return Core.StrategySide.OVERBOUGHT;
         }

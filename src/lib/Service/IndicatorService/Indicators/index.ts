@@ -16,6 +16,8 @@ export * from "./IndicatorADX";
 export * from "./IndicatorMACD";
 export * from "./IndicatorBBANDS";
 export * from "./IndicatorWILLR";
+export * from "./IndicatorMA";
+export * from "./IndicatorEMA";
 export * from "./IndicatorSTOCH";
 export * from "./IndicatorSTOCHRSI";
 export * from "./IndicatorGraphicalAnalysis";

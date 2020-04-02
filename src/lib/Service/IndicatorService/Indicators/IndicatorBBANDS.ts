@@ -54,10 +54,11 @@ export class IndicatorBBANDS implements Core.IIndicator {
         });
         const upper = result.result.outRealUpperBand[0];
         const lower = result.result.outRealLowerBand[0];
-        if (close[0] < lower) {
+        this.index = upper;
+        if (close[close.length-1] < lower) {
             return Core.StrategySide.BUY;
         }
-        if (close[0] > upper) {
+        if (close[close.length-1] > upper) {
             return Core.StrategySide.SELL;
         }
         return Core.StrategySide.NEUTRAL;

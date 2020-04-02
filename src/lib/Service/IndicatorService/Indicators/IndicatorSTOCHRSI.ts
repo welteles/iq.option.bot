@@ -56,6 +56,8 @@ export class IndicatorSTOCHRSI implements Core.IIndicator {
             optInTimePeriod: this.conditionConfig.periods[0],
         });
         const rsi = result.result.outFastK[0];
+        this.index = rsi;
+
         if( this.conditionConfig.overboughtEntry !== undefined && rsi >= this.conditionConfig.overboughtEntry) {
             return Core.StrategySide.OVERBOUGHT;
         }

@@ -55,17 +55,19 @@ export class IndicatorSTOCH implements Core.IIndicator {
             optInSlowD_MAType: 0
         });
         const rsi = result.result.outSlowK[0];
-        if (
-            this.conditionConfig.sellEntry !== undefined &&
-            rsi >= this.conditionConfig.sellEntry
-        ) {
-            return Core.StrategySide.SELL;
+        this.index = rsi;
+
+        if( this.conditionConfig.overboughtEntry !== undefined && rsi >= this.conditionConfig.overboughtEntry) {
+            return Core.StrategySide.OVERBOUGHT;
         }
-        if (
-            this.conditionConfig.buyEntry !== undefined &&
-            rsi <= this.conditionConfig.buyEntry
-        ) {
+        if( this.conditionConfig.oversoldEntry !== undefined && rsi <= this.conditionConfig.oversoldEntry) {
+            return Core.StrategySide.OVERSOLD;
+        }
+        if( this.conditionConfig.buyEntry !== undefined && rsi >= this.conditionConfig.buyEntry) {
             return Core.StrategySide.BUY;
+        }
+        if( this.conditionConfig.sellEntry !== undefined && rsi >= this.conditionConfig.sellEntry) {
+            return Core.StrategySide.SELL;
         }
         return Core.StrategySide.NEUTRAL;
     }

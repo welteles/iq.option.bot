@@ -53,6 +53,7 @@ export class IndicatorCCI implements Core.IIndicator {
             optInTimePeriod: this.conditionConfig.periods[0]
         });
         const rsi = result.result.outReal[0];
+        this.index = rsi;
         if (
             this.conditionConfig.sellEntry !== undefined &&
             rsi <= this.conditionConfig.sellEntry

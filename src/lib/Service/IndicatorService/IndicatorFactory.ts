@@ -59,5 +59,9 @@ export class IndicatorFactory {
             new Core.IndicatorULTOSC(conditionConfig),
         [Indicator.ROC]: (conditionConfig: Core.IConditionConfig) =>
             new Core.IndicatorROC(conditionConfig),
+        [Indicator.MA]: (conditionConfig: Core.IConditionConfig) =>
+            new Core.IndicatorMA(conditionConfig),
+        [Indicator.EMA]: (conditionConfig: Core.IConditionConfig) =>
+            new Core.IndicatorEMA(conditionConfig),
     };
 }

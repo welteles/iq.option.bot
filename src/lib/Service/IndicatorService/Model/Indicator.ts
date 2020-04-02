@@ -13,6 +13,8 @@
 export enum Indicator {
     GRAPHICAL_ANALYSIS = "GRAPHICAL_ANALYSIS",
     RSI = "RSI",
+    MA = "MA",
+    EMA = "EMA",
     ROC = "ROC",
     CCI = "CCI",
     ULTOSC = "ULTOSC",

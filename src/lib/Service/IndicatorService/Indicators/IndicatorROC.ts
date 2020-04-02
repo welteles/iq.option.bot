@@ -49,6 +49,7 @@ export class IndicatorROC implements Core.IIndicator {
             optInTimePeriod: this.conditionConfig.periods[0]
         });
         const rsi = result.result.outReal[0];
+        this.index = rsi;
         if ( rsi < 0 ) {
             return Core.StrategySide.SELL;
         }
