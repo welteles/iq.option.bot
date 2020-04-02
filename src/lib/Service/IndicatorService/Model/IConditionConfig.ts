@@ -33,6 +33,16 @@ export interface IConditionConfig {
     sellEntry?: number;
 
     /**
+     * Buy entry.
+     */
+    oversoldEntry?: number;
+
+    /**
+     * Sell entry.
+     */
+    overboughtEntry?: number;
+
+    /**
      * Deviation.
      */
     deviation: number;

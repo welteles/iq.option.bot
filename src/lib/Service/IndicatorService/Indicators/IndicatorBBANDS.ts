@@ -6,7 +6,7 @@
  *
  * Proprietary and confidential.
  */
-import * as talib from "ta-lib";
+const talib = require('talib')
 import * as Core from "../../..";
 
 /**
@@ -38,15 +38,26 @@ export class IndicatorBBANDS implements Core.IIndicator {
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
-        const bbands = talib.BBANDS(
-            candles.close.slice(0, this.conditionConfig.periods[0]),
-            this.conditionConfig.periods[0],
-            this.conditionConfig.deviation
-        );
-        if (candles.low[0] < bbands.lowband[0]) {
+// // Retreive Average Directional Movement Index indicator specifications
+//         var function_desc = talib.explain("BBANDS");
+//         console.dir(function_desc);
+        const close = candles.close.slice(0, this.conditionConfig.periods[0]);
+        const result = talib.execute({
+            name: "BBANDS",
+            startIdx: 0,
+            endIdx: close.length-1,
+            inReal: close.reverse(),
+            optInTimePeriod: this.conditionConfig.periods[0],
+            optInNbDevUp: this.conditionConfig.deviation,
+            optInNbDevDn: this.conditionConfig.deviation,
+            optInMAType: 0,
+        });
+        const upper = result.result.outRealUpperBand[0];
+        const lower = result.result.outRealLowerBand[0];
+        if (close[0] < lower) {
             return Core.StrategySide.BUY;
         }
-        if (candles.high[0] > bbands.highband[0]) {
+        if (close[0] > upper) {
             return Core.StrategySide.SELL;
         }
         return Core.StrategySide.NEUTRAL;

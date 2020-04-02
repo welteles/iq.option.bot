@@ -94,17 +94,6 @@ export class IndicatorService {
         this.movingAverage = [];
         for (const indicator of this.indicators) {
             const condition = indicator.checkCondition(candles);
-            if (!condition) {
-                indicatorResponse = false;
-                break;
-            }
-            if (
-                indicatorResponse !== false &&
-                condition !== indicatorResponse
-            ) {
-                indicatorResponse = false;
-                break;
-            }
             indicatorResponse = condition;
             this.technicalIndicators.push( condition );
         }

@@ -49,5 +49,15 @@ export class IndicatorFactory {
             new Core.IndicatorADX(conditionConfig),
         [Indicator.STOCH]: (conditionConfig: Core.IConditionConfig) =>
             new Core.IndicatorSTOCH(conditionConfig),
+        [Indicator.STOCHRSI]: (conditionConfig: Core.IConditionConfig) =>
+            new Core.IndicatorSTOCHRSI(conditionConfig),
+        [Indicator.WILLR]: (conditionConfig: Core.IConditionConfig) =>
+            new Core.IndicatorWILLR(conditionConfig),
+        [Indicator.CCI]: (conditionConfig: Core.IConditionConfig) =>
+            new Core.IndicatorCCI(conditionConfig),
+        [Indicator.ULTOSC]: (conditionConfig: Core.IConditionConfig) =>
+            new Core.IndicatorULTOSC(conditionConfig),
+        [Indicator.ROC]: (conditionConfig: Core.IConditionConfig) =>
+            new Core.IndicatorROC(conditionConfig),
     };
 }

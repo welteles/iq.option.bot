@@ -12,7 +12,7 @@ import * as Core from "../../..";
 /**
  * Indicator condition.
  */
-export class IndicatorSTOCH implements Core.IIndicator {
+export class IndicatorSTOCHRSI implements Core.IIndicator {
 
     /**
      * Indicator config.
@@ -38,34 +38,35 @@ export class IndicatorSTOCH implements Core.IIndicator {
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
-        const close = candles.close.slice(0, 16);
-        const high = candles.high.slice(0, 16);
-        const low = candles.low.slice(0, 16);
+        // Retreive Average Directional Movement Index indicator specifications
+        // var function_desc = talib.explain("STOCHRSI");
+        // console.dir(function_desc);
+        // // Retreive Average Directional Movement Index indicator specifications
+        // var function_desc = talib.explain("STOCH");
+        // console.dir(function_desc);
+        const close = candles.close.slice(0, this.conditionConfig.periods[0]+7);
         const result = talib.execute({
-            name: "STOCH",
+            name: "STOCHRSI",
             startIdx: 0,
             endIdx: close.length-1,
-            close: close.reverse(),
-            high: high.reverse(),
-            low: low.reverse(),
-            optInFastK_Period: 9,
-            optInSlowK_Period: 6,
-            optInSlowK_MAType: 0,
-            optInSlowD_Period: 3,
-            optInSlowD_MAType: 0
+            inReal: close.reverse(),
+            optInFastK_Period: 5,
+            optInFastD_Period: 3,
+            optInFastD_MAType: 0,
+            optInTimePeriod: this.conditionConfig.periods[0],
         });
-        const rsi = result.result.outSlowK[0];
-        if (
-            this.conditionConfig.sellEntry !== undefined &&
-            rsi >= this.conditionConfig.sellEntry
-        ) {
-            return Core.StrategySide.SELL;
+        const rsi = result.result.outFastK[0];
+        if( this.conditionConfig.overboughtEntry !== undefined && rsi >= this.conditionConfig.overboughtEntry) {
+            return Core.StrategySide.OVERBOUGHT;
         }
-        if (
-            this.conditionConfig.buyEntry !== undefined &&
-            rsi <= this.conditionConfig.buyEntry
-        ) {
+        if( this.conditionConfig.oversoldEntry !== undefined && rsi <= this.conditionConfig.oversoldEntry) {
+            return Core.StrategySide.OVERSOLD;
+        }
+        if( this.conditionConfig.buyEntry !== undefined && rsi >= this.conditionConfig.buyEntry) {
             return Core.StrategySide.BUY;
+        }
+        if( this.conditionConfig.sellEntry !== undefined && rsi >= this.conditionConfig.sellEntry) {
+            return Core.StrategySide.SELL;
         }
         return Core.StrategySide.NEUTRAL;
     }

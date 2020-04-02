@@ -12,7 +12,7 @@ import * as Core from "../../..";
 /**
  * Indicator condition.
  */
-export class IndicatorATR implements Core.IIndicator {
+export class IndicatorROC implements Core.IIndicator {
 
     /**
      * Indicator config.
@@ -39,25 +39,22 @@ export class IndicatorATR implements Core.IIndicator {
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
         const close = candles.close.slice(0, this.conditionConfig.periods[0]+1);
-        const high = candles.high.slice(0, this.conditionConfig.periods[0]+1);
-        const low = candles.low.slice(0, this.conditionConfig.periods[0]+1);
+        // var function_desc = talib.explain("ROC");
+        // console.dir(function_desc);
         const result = talib.execute({
-            name: "ATR",
+            name: "ROC",
             startIdx: 0,
             endIdx: close.length-1,
-            close: close.reverse(),
-            high:high.reverse(),
-            low: low.reverse(),
+            inReal: close.reverse(),
             optInTimePeriod: this.conditionConfig.periods[0]
         });
-        console.log('ATR');
-        console.log(result);
-        const data = result.result.outReal[0];
-        const percentage = data/close[0]*100;
-        this.index = percentage;
-        if ( percentage > 0.01 ) {
-            return Core.StrategySide.HIGH;
+        const rsi = result.result.outReal[0];
+        if ( rsi < 0 ) {
+            return Core.StrategySide.SELL;
         }
-        return Core.StrategySide.LOW;
+        if ( rsi > 0 ) {
+            return Core.StrategySide.BUY;
+        }
+        return Core.StrategySide.NEUTRAL;
     }
 }

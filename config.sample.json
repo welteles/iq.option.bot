@@ -15,7 +15,7 @@
         "martingaleMaxAttempts": 6
     },
     "indicator": {
-        "time": 5,
+        "time": 1,
         "minCandles": 28,
         "conditions": [
             {
@@ -25,6 +25,52 @@
             {
                 "indicator": "ATR",
                 "periods": [14]
+            },
+            {
+                "indicator": "WILLR",
+                "periods": [14]
+            },
+            {
+                "indicator": "BBANDS",
+                "periods": [14],
+                "deviation": 2.5
+            },
+            {
+                "indicator": "RSI",
+                "periods": [14],
+                "buyEntry": 60,
+                "sellEntry" : 40
+            },            {
+                "indicator": "ULTOSC",
+                "periods": [14],
+                "buyEntry": 60,
+                "sellEntry" : 40
+            },
+            {
+                "indicator": "STOCH",
+                "periods": [14],
+                "buyEntry": 60,
+                "sellEntry" : 40
+            },
+            {
+                "indicator": "STOCHRSI",
+                "periods": [14],
+                "oversoldEntry": 25,
+                "overboughtEntry": 75,
+                "buyEntry" : 60,
+                "sellEntry" : 40
+            },
+            {
+                "indicator": "CCI",
+                "periods": [14],
+                "buyEntry": 50,
+                "sellEntry" : -50
+            },
+            {
+                "indicator": "ROC",
+                "periods": [10],
+                "buyEntry": 50,
+                "sellEntry" : -50
             }
         ]
     },

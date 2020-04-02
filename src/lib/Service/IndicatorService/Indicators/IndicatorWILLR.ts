@@ -12,7 +12,7 @@ import * as Core from "../../..";
 /**
  * Indicator condition.
  */
-export class IndicatorATR implements Core.IIndicator {
+export class IndicatorWILLR implements Core.IIndicator {
 
     /**
      * Indicator config.
@@ -38,26 +38,28 @@ export class IndicatorATR implements Core.IIndicator {
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
-        const close = candles.close.slice(0, this.conditionConfig.periods[0]+1);
-        const high = candles.high.slice(0, this.conditionConfig.periods[0]+1);
-        const low = candles.low.slice(0, this.conditionConfig.periods[0]+1);
+        const close = candles.close.slice(0, this.conditionConfig.periods[0]);
+        const high = candles.high.slice(0, this.conditionConfig.periods[0]);
+        const low = candles.low.slice(0, this.conditionConfig.periods[0]);
         const result = talib.execute({
-            name: "ATR",
+            name: "WILLR",
             startIdx: 0,
             endIdx: close.length-1,
             close: close.reverse(),
-            high:high.reverse(),
+            high: high.reverse(),
             low: low.reverse(),
             optInTimePeriod: this.conditionConfig.periods[0]
         });
-        console.log('ATR');
-        console.log(result);
         const data = result.result.outReal[0];
-        const percentage = data/close[0]*100;
-        this.index = percentage;
-        if ( percentage > 0.01 ) {
-            return Core.StrategySide.HIGH;
+        this.index = data;
+
+        if ( data >= -20 ) {
+            return Core.StrategySide.OVERBOUGHT;
         }
-        return Core.StrategySide.LOW;
+
+        if ( data <= -80 ) {
+            return Core.StrategySide.OVERSOLD;
+        }
+        return Core.StrategySide.NEUTRAL;
     }
 }
