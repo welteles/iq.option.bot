@@ -32,7 +32,7 @@ export class IndicatorService {
     /**
      * Indicator side.
      */
-    private static indicatorSide: Core.StrategySide | boolean = false;
+    private static indicatorSide: Core.StrategySide;
 
     /**
      * Min candles.
@@ -71,24 +71,24 @@ export class IndicatorService {
      * @param candles
      */
     public checkIndicator(candles: Core.ICandle): void {
-        let indicatorResponse: Core.StrategySide | boolean = false;
+        let indicatorResponse: Core.StrategySide = Core.StrategySide.NEUTRAL;
         IndicatorService.candles = candles;
         if (!IndicatorService.isCandlesMinimum()) {
             this.messageLoadCandles();
             return;
         }
-        IndicatorService.indicatorSide = false;
+        IndicatorService.indicatorSide = Core.StrategySide.NEUTRAL;
         for (const indicator of this.indicators) {
             const condition = indicator.checkCondition(candles);
-            if (!condition) {
-                indicatorResponse = false;
+            if (condition === Core.StrategySide.NEUTRAL) {
+                indicatorResponse = Core.StrategySide.NEUTRAL;
                 break;
             }
             if (
-                indicatorResponse !== false &&
+                indicatorResponse !== Core.StrategySide.NEUTRAL &&
                 condition !== indicatorResponse
             ) {
-                indicatorResponse = false;
+                indicatorResponse = Core.StrategySide.NEUTRAL;
                 break;
             }
             indicatorResponse = condition;

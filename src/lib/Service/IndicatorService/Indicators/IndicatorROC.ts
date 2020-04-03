@@ -12,7 +12,7 @@ import * as Core from "../../..";
 /**
  * Indicator condition.
  */
-export class IndicatorBBANDS implements Core.IIndicator {
+export class IndicatorROC implements Core.IIndicator {
     /**
      * Indicator config.
      */
@@ -31,21 +31,20 @@ export class IndicatorBBANDS implements Core.IIndicator {
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
-        const bbands = talib.execute({
-            name: Core.Indicator.BBANDS,
-            startIdx: 0,
-            endIdx: candles.close.length - 1,
-            inReal: candles.close,
-            optInTimePeriod: this.conditionConfig.periods[0],
-            optInNbDevUp: this.conditionConfig.deviation,
-            optInNbDevDn: this.conditionConfig.deviation,
-            optInMAType: 0,
-        } as any).result;
-        if (candles.close[0] < bbands.outRealLowerBand.reverse()[0]) {
-            return Core.StrategySide.BUY;
-        }
-        if (candles.close[0] > bbands.outRealUpperBand.reverse()[0]) {
+        const dataRoc = talib
+            .execute({
+                name: Core.Indicator.ROC,
+                startIdx: 0,
+                endIdx: candles.close.length - 1,
+                inReal: candles.close,
+                optInTimePeriod: this.conditionConfig.periods[0],
+            } as any)
+            .result.outReal.reverse()[0];
+        if (dataRoc < 0) {
             return Core.StrategySide.SELL;
+        }
+        if (dataRoc > 0) {
+            return Core.StrategySide.BUY;
         }
         return Core.StrategySide.NEUTRAL;
     }

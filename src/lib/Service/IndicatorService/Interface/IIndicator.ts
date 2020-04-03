@@ -17,5 +17,5 @@ export interface IIndicator {
      *
      * @param candles
      */
-    checkCondition(candles: Core.ICandle): Core.StrategySide | boolean;
+    checkCondition(candles: Core.ICandle): Core.StrategySide;
 }

@@ -29,13 +29,13 @@ export class IndicatorGraphicalAnalysis implements Core.IIndicator {
     /**
      * Check condition.
      */
-    public checkCondition(candles: Core.ICandle): Core.StrategySide | boolean {
+    public checkCondition(candles: Core.ICandle): Core.StrategySide {
         if (this.conditionConfig.sellEntry !== undefined) {
             return Core.StrategySide.SELL;
         }
         if (this.conditionConfig.buyEntry !== undefined) {
             return Core.StrategySide.BUY;
         }
-        return false;
+        return Core.StrategySide.NEUTRAL;
     }
 }

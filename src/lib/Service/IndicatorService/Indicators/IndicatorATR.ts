@@ -7,16 +7,22 @@
  * Proprietary and confidential.
  */
 const talib = require("talib");
+import BigNumber from "bignumber.js";
 import * as Core from "../../..";
 
 /**
  * Indicator condition.
  */
-export class IndicatorRSI implements Core.IIndicator {
+export class IndicatorATR implements Core.IIndicator {
     /**
      * Indicator config.
      */
     private readonly conditionConfig: Core.IConditionConfig;
+
+    /**
+     * Percentage.
+     */
+    private readonly percentage: number = 0.003;
 
     /**
      * Indicator RSI.
@@ -31,27 +37,31 @@ export class IndicatorRSI implements Core.IIndicator {
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
-        const rsi = talib
+        const atr = talib
             .execute({
-                name: Core.Indicator.RSI,
+                name: Core.Indicator.ATR,
+                startIdx: 0,
+                endIdx: candles.close.length - 1,
+                close: candles.close,
+                high: candles.high,
+                low: candles.low,
+                optInTimePeriod: this.conditionConfig.periods[0],
+            } as any)
+            .result.outReal.reverse()[0];
+        const ma = talib
+            .execute({
+                name: Core.Indicator.MA,
                 startIdx: 0,
                 endIdx: candles.close.length - 1,
                 inReal: candles.close,
                 optInTimePeriod: this.conditionConfig.periods[0],
+                optInMAType: 0,
             } as any)
             .result.outReal.reverse()[0];
-        if (
-            this.conditionConfig.sellEntry !== undefined &&
-            rsi >= this.conditionConfig.sellEntry
-        ) {
-            return Core.StrategySide.BUY;
+        const percentage = new BigNumber(atr).div(ma).times(100).toNumber();
+        if (percentage > this.percentage) {
+            return Core.StrategySide.HIGH;
         }
-        if (
-            this.conditionConfig.buyEntry !== undefined &&
-            rsi <= this.conditionConfig.buyEntry
-        ) {
-            return Core.StrategySide.SELL;
-        }
-        return Core.StrategySide.NEUTRAL;
+        return Core.StrategySide.LOW;
     }
 }
