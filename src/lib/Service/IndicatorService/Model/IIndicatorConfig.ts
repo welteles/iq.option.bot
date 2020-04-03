@@ -26,4 +26,9 @@ export interface IIndicatorConfig {
      * Conditions.
      */
     conditions: Core.IConditionConfig[];
+
+    /**
+     * Deviation.
+     */
+    strong_required: boolean;
 }

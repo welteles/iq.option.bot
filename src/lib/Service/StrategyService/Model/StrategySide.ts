@@ -3,6 +3,8 @@
  */
 export enum StrategySide {
     BUY = "BUY",
+    STRONG_BUY = "STRONG_BUY",
+    STRONG_SELL = "STRONG_SELL",
     SELL = "SELL",
     OVERBOUGHT = "OVERBOUGHT",
     OVERSOLD = "OVERSOLD",

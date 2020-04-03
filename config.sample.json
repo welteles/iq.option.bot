@@ -4,19 +4,22 @@
         "password": ""
     },
     "strategy": {
-        "strategy": "MARTINGALE",
+        "strategy": "LABOUCHERE",
         "balanceAvailable": 200,
-        "balanceInCurrency": "BRL",
+        "balanceInCurrency": "USD",
         "valueType": "PERCENT",
         "value": 1,
         "market": 1,
-        "time": 1,
+        "time": 3,
         "test": true,
-        "martingaleMaxAttempts": 6
+        "martingaleMaxAttempts": 15,
+        "strong_required": true,
+        "high_volatility": false
     },
     "indicator": {
         "time": 60,
         "minCandles": 5,
+        "strong_required": true,
         "conditions": [
             {
                 "indicator": "ADX",

@@ -33,11 +33,28 @@ export class StrategyEngine {
             }
             Core.enableStrategyInformation();
             StrategyEngine.indicatorSide = Core.IndicatorService.getIndicatorSide();
+            console.log('IQOPTION indicator: '+ StrategyEngine.indicatorSide);
+            if (
+                ( !Core.global.config.strategy.high_volatility  && Core.IndicatorService.getVolatility() === Core.StrategySide.HIGH ) ||
+                ( Core.global.config.strategy.strong_required  && ( StrategyEngine.indicatorSide !== Core.StrategySide.STRONG_SELL && StrategyEngine.indicatorSide !== Core.StrategySide.STRONG_BUY) )
+            ){
+                return false;
+            }
+
+            if (StrategyEngine.indicatorSide === Core.StrategySide.STRONG_BUY) {
+                StrategyEngine.indicatorSide = Core.StrategySide.BUY;
+            }
+
+            if (StrategyEngine.indicatorSide === Core.StrategySide.STRONG_SELL) {
+                StrategyEngine.indicatorSide = Core.StrategySide.SELL;
+            }
+
             if (
                 StrategyEngine.indicatorSide === Core.StrategySide.BUY ||
                 StrategyEngine.indicatorSide === Core.StrategySide.SELL
+
             ) {
-                // Core.EventManager.emit(Core.StrategyEvent.NEW_TARGET);
+                Core.EventManager.emit(Core.StrategyEvent.NEW_TARGET);
             }
         }
         // if (Core.TechnicalAnalysisBuild.haveTechnicalAnalysis()) {

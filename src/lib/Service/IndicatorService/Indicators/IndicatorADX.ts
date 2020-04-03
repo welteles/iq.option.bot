@@ -41,7 +41,6 @@ export class IndicatorADX implements Core.IIndicator {
         const close = candles.close.slice(0, this.conditionConfig.periods[0]*2);
         const high = candles.high.slice(0, this.conditionConfig.periods[0]*2);
         const low = candles.low.slice(0, this.conditionConfig.periods[0]*2);
-        console.log(close[0])
         const result = talib.execute({
             name: "ADX",
             startIdx: 0,

@@ -41,7 +41,6 @@ export class IndicatorATR implements Core.IIndicator {
         const close = candles.close.slice(0, this.conditionConfig.periods[0]+1);
         const high = candles.high.slice(0, this.conditionConfig.periods[0]+1);
         const low = candles.low.slice(0, this.conditionConfig.periods[0]+1);
-        console.log(close[0])
         const result = talib.execute({
             name: "ATR",
             startIdx: 0,
@@ -51,10 +50,22 @@ export class IndicatorATR implements Core.IIndicator {
             low: low.reverse(),
             optInTimePeriod: this.conditionConfig.periods[0]
         });
+
+        const result2 = talib.execute({
+            name: "MA",
+            startIdx: 0,
+            endIdx: close.length-1,
+            inReal: close.reverse(),
+            optInTimePeriod: this.conditionConfig.periods[0],
+            optInMAType: 0
+        });
+
+        const ma = result2.result.outReal[0]
+
         const data = result.result.outReal[0];
-        const percentage = data/close[close.length-1]*100;
+        const percentage = data/ma*100;
         this.index = percentage;
-        if ( percentage > 0.01 ) {
+        if ( percentage > 0.003 ) {
             return Core.StrategySide.HIGH;
         }
         return Core.StrategySide.LOW;
