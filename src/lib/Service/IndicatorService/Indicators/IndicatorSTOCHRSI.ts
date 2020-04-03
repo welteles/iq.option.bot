@@ -6,19 +6,13 @@
  *
  * Proprietary and confidential.
  */
-const talib = require('talib')
+const talib = require("talib");
 import * as Core from "../../..";
 
 /**
  * Indicator condition.
  */
 export class IndicatorSTOCHRSI implements Core.IIndicator {
-
-    /**
-     * Indicator config.
-     */
-    public index: boolean | number;
-
     /**
      * Indicator config.
      */
@@ -31,63 +25,48 @@ export class IndicatorSTOCHRSI implements Core.IIndicator {
      */
     public constructor(conditionConfig: Core.IConditionConfig) {
         this.conditionConfig = conditionConfig;
-        this.index = false;
     }
 
     /**
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
-        // Retreive Average Directional Movement Index indicator specifications
-        // var function_desc = talib.explain("STOCHRSI");
-        // console.dir(function_desc);
-        // // Retreive Average Directional Movement Index indicator specifications
-        // var function_desc = talib.explain("STOCH");
-        // console.dir(function_desc);
-        const close = candles.close.slice(0, this.conditionConfig.periods[0]+7);
-        const result = talib.execute({
-            name: "STOCHRSI",
-            startIdx: 0,
-            endIdx: close.length-1,
-            inReal: close.reverse(),
-            optInFastK_Period: 5,
-            optInFastD_Period: 3,
-            optInFastD_MAType: 0,
-            optInTimePeriod: this.conditionConfig.periods[0],
-        });
-        const rsi = result.result.outFastK[0];
-        this.index = rsi;
-
-        if( this.conditionConfig.overboughtEntry !== undefined && rsi >= this.conditionConfig.overboughtEntry) {
+        const stochRSI = talib
+            .execute({
+                name: Core.Indicator.STOCHRSI,
+                startIdx: 0,
+                endIdx: candles.close.length - 1,
+                inReal: candles.close,
+                optInFastK_Period: 5, // todo
+                optInFastD_Period: 3, // todo
+                optInFastD_MAType: 0, // todo
+                optInTimePeriod: this.conditionConfig.periods[0],
+            } as any)
+            .result.outFastK.reverse()[0];
+        if (
+            this.conditionConfig.overboughtEntry !== undefined &&
+            stochRSI >= this.conditionConfig.overboughtEntry
+        ) {
             return Core.StrategySide.OVERBOUGHT;
         }
-        if( this.conditionConfig.oversoldEntry !== undefined && rsi <= this.conditionConfig.oversoldEntry) {
+        if (
+            this.conditionConfig.oversoldEntry !== undefined &&
+            stochRSI <= this.conditionConfig.oversoldEntry
+        ) {
             return Core.StrategySide.OVERSOLD;
         }
-        if( this.conditionConfig.buyEntry !== undefined && rsi >= this.conditionConfig.buyEntry) {
+        if (
+            this.conditionConfig.buyEntry !== undefined &&
+            stochRSI >= this.conditionConfig.buyEntry
+        ) {
             return Core.StrategySide.BUY;
         }
-        if( this.conditionConfig.sellEntry !== undefined && rsi >= this.conditionConfig.sellEntry) {
+        if (
+            this.conditionConfig.sellEntry !== undefined &&
+            stochRSI >= this.conditionConfig.sellEntry
+        ) {
             return Core.StrategySide.SELL;
         }
         return Core.StrategySide.NEUTRAL;
     }
 }
-//
-//
-// {
-//     name: 'ATR',
-//         group: 'Volatility Indicators',
-//     hint: 'Average True Range',
-//     inputs: [ { name: 'inPriceHLC', type: 'price', flags: [Object] } ],
-//     optInputs: [
-//     {
-//         name: 'optInTimePeriod',
-//         displayName: 'Time Period',
-//         defaultValue: 14,
-//         hint: 'Number of period',
-//         type: 'integer_range'
-//     }
-// ],
-//     outputs: [ { '0': 'line', name: 'outReal', type: 'real', flags: {} } ]
-// }

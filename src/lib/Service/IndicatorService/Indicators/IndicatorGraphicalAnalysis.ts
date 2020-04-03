@@ -12,12 +12,6 @@ import * as Core from "../../..";
  * Indicator condition.
  */
 export class IndicatorGraphicalAnalysis implements Core.IIndicator {
-
-    /**
-     * Indicator config.
-     */
-    public index: boolean | number;
-
     /**
      * Indicator config.
      */
@@ -30,7 +24,6 @@ export class IndicatorGraphicalAnalysis implements Core.IIndicator {
      */
     public constructor(conditionConfig: Core.IConditionConfig) {
         this.conditionConfig = conditionConfig;
-        this.index = false;
     }
 
     /**

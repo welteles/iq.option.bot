@@ -212,6 +212,15 @@ export abstract class StrategyAbstract {
     }
 
     /**
+     * Is that market.
+     *
+     * @param market
+     */
+    protected isThatMarket(market: IQOption.IQOptionMarket): boolean {
+        return this.strategyConfig.market === market;
+    }
+
+    /**
      * Update profile.
      *
      * @param profile
@@ -227,15 +236,6 @@ export abstract class StrategyAbstract {
             )
         );
         return Promise.resolve();
-    }
-
-    /**
-     * Is that market.
-     *
-     * @param market
-     */
-    protected isThatMarket(market: IQOption.IQOptionMarket): boolean {
-        return this.strategyConfig.market === market;
     }
 
     /**

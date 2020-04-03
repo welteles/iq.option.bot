@@ -33,11 +33,17 @@ export class StrategyEngine {
             }
             Core.enableStrategyInformation();
             StrategyEngine.indicatorSide = Core.IndicatorService.getIndicatorSide();
-            console.log('IQOPTION indicator: '+ StrategyEngine.indicatorSide);
+            console.log("IQOPTION indicator: " + StrategyEngine.indicatorSide);
             if (
-                ( !Core.global.config.strategy.high_volatility  && Core.IndicatorService.getVolatility() === Core.StrategySide.HIGH ) ||
-                ( Core.global.config.strategy.strong_required  && ( StrategyEngine.indicatorSide !== Core.StrategySide.STRONG_SELL && StrategyEngine.indicatorSide !== Core.StrategySide.STRONG_BUY) )
-            ){
+                (!Core.global.config.strategy.highVolatility &&
+                    Core.IndicatorService.getVolatility() ===
+                        Core.StrategySide.HIGH) ||
+                (Core.global.config.strategy.strongOnly &&
+                    StrategyEngine.indicatorSide !==
+                        Core.StrategySide.STRONG_SELL &&
+                    StrategyEngine.indicatorSide !==
+                        Core.StrategySide.STRONG_BUY)
+            ) {
                 return false;
             }
 
@@ -45,14 +51,15 @@ export class StrategyEngine {
                 StrategyEngine.indicatorSide = Core.StrategySide.BUY;
             }
 
-            if (StrategyEngine.indicatorSide === Core.StrategySide.STRONG_SELL) {
+            if (
+                StrategyEngine.indicatorSide === Core.StrategySide.STRONG_SELL
+            ) {
                 StrategyEngine.indicatorSide = Core.StrategySide.SELL;
             }
 
             if (
                 StrategyEngine.indicatorSide === Core.StrategySide.BUY ||
                 StrategyEngine.indicatorSide === Core.StrategySide.SELL
-
             ) {
                 Core.EventManager.emit(Core.StrategyEvent.NEW_TARGET);
             }

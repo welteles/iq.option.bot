@@ -6,19 +6,13 @@
  *
  * Proprietary and confidential.
  */
-const talib = require('talib')
+const talib = require("talib");
 import * as Core from "../../..";
 
 /**
  * Indicator condition.
  */
 export class IndicatorADX implements Core.IIndicator {
-
-    /**
-     * Indicator config.
-     */
-    public index: boolean | number;
-
     /**
      * Indicator config.
      */
@@ -31,40 +25,32 @@ export class IndicatorADX implements Core.IIndicator {
      */
     public constructor(conditionConfig: Core.IConditionConfig) {
         this.conditionConfig = conditionConfig;
-        this.index = false;
     }
 
     /**
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
-        const close = candles.close.slice(0, this.conditionConfig.periods[0]*2);
-        const high = candles.high.slice(0, this.conditionConfig.periods[0]*2);
-        const low = candles.low.slice(0, this.conditionConfig.periods[0]*2);
-        const result = talib.execute({
-            name: "ADX",
-            startIdx: 0,
-            endIdx: close.length-1,
-            close: close.reverse(),
-            high: high.reverse(),
-            low: low.reverse(),
-            optInTimePeriod: this.conditionConfig.periods[0]
-        });
-        const data = result.result.outReal[0];
-        this.index = data;
-
-        if ( data <= 25 ) {
+        const data = talib
+            .execute({
+                name: Core.Indicator.ADX,
+                startIdx: 0,
+                endIdx: candles.close.length - 1,
+                close: candles.close,
+                high: candles.high,
+                low: candles.low,
+                optInTimePeriod: this.conditionConfig.periods[0],
+            } as any)
+            .result.outReal.reverse()[0];
+        if (data <= 25) {
             return Core.StrategySide.WEAK;
         }
-
-        if ( data <= 50 ) {
+        if (data <= 50) {
             return Core.StrategySide.STRONG;
         }
-
-        if ( data <= 75 ) {
+        if (data <= 75) {
             return Core.StrategySide.VERY_STRONG;
         }
-
         return Core.StrategySide.EXTREME;
     }
 }

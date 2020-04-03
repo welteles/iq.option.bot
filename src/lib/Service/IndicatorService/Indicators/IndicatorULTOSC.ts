@@ -6,19 +6,13 @@
  *
  * Proprietary and confidential.
  */
-const talib = require('talib')
+const talib = require("talib");
 import * as Core from "../../..";
 
 /**
  * Indicator condition.
  */
 export class IndicatorULTOSC implements Core.IIndicator {
-
-    /**
-     * Indicator config.
-     */
-    public index: boolean | number;
-
     /**
      * Indicator config.
      */
@@ -31,39 +25,34 @@ export class IndicatorULTOSC implements Core.IIndicator {
      */
     public constructor(conditionConfig: Core.IConditionConfig) {
         this.conditionConfig = conditionConfig;
-        this.index = false;
     }
 
     /**
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
-        const close = candles.close.slice(0, this.conditionConfig.periods[0]*2.1);
-        const high = candles.high.slice(0, this.conditionConfig.periods[0]*2.1);
-        const low = candles.low.slice(0, this.conditionConfig.periods[0]*2.1);
-        const result = talib.execute({
-            name: "ULTOSC",
-            startIdx: 0,
-            endIdx: close.length-1,
-            close: close.reverse(),
-            high: high.reverse(),
-            low: low.reverse(),
-            optInTimePeriod1: 7,
-            optInTimePeriod2: 14,
-            optInTimePeriod3: 28
-        });
-        const rsi = result.result.outReal[0];
-        this.index = rsi;
-
+        const ultosc = talib
+            .execute({
+                name: Core.Indicator.ULTOSC,
+                startIdx: 0,
+                endIdx: candles.close.length - 1,
+                close: candles.close,
+                high: candles.high,
+                low: candles.low,
+                optInTimePeriod1: 7, // todo
+                optInTimePeriod2: 14, //  todo
+                optInTimePeriod3: 28, // todo
+            } as any)
+            .result.outReal.reverse()[0];
         if (
             this.conditionConfig.sellEntry !== undefined &&
-            rsi <= this.conditionConfig.sellEntry
+            ultosc <= this.conditionConfig.sellEntry
         ) {
             return Core.StrategySide.SELL;
         }
         if (
             this.conditionConfig.buyEntry !== undefined &&
-            rsi >= this.conditionConfig.buyEntry
+            ultosc >= this.conditionConfig.buyEntry
         ) {
             return Core.StrategySide.BUY;
         }

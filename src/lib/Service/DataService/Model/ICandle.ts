@@ -17,11 +17,6 @@ export interface ICandle {
     open: number[];
 
     /**
-     * Close.
-     */
-    close: number[];
-
-    /**
      * High.
      */
     high: number[];
@@ -30,4 +25,14 @@ export interface ICandle {
      * Low.
      */
     low: number[];
+
+    /**
+     * Volume.
+     */
+    volume: number[];
+
+    /**
+     * Close.
+     */
+    close: number[];
 }

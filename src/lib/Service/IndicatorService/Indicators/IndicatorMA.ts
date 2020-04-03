@@ -6,19 +6,13 @@
  *
  * Proprietary and confidential.
  */
-const talib = require('talib')
+const talib = require("talib");
 import * as Core from "../../..";
 
 /**
  * Indicator condition.
  */
 export class IndicatorMA implements Core.IIndicator {
-
-    /**
-     * Indicator config.
-     */
-    public index: boolean | number;
-
     /**
      * Indicator config.
      */
@@ -31,32 +25,28 @@ export class IndicatorMA implements Core.IIndicator {
      */
     public constructor(conditionConfig: Core.IConditionConfig) {
         this.conditionConfig = conditionConfig;
-        this.index = false;
     }
 
     /**
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
-        const close = candles.close.slice(0, this.conditionConfig.periods[0]+1);
-        const result = talib.execute({
-            name: "MA",
-            startIdx: 0,
-            endIdx: close.length-1,
-            inReal: close.reverse(),
-            optInTimePeriod: this.conditionConfig.periods[0],
-            optInMAType: 0
-        });
-
-        const data = result.result.outReal[1];
-        const dataAnt = result.result.outReal[0];
-
-        this.index = data;
-
-        if ( data < dataAnt ) {
+        const ma = talib
+            .execute({
+                name: Core.Indicator.MA,
+                startIdx: 0,
+                endIdx: candles.close.length - 1,
+                inReal: candles.close,
+                optInTimePeriod: this.conditionConfig.periods[0],
+                optInMAType: 0,
+            } as any)
+            .result.outReal.reverse();
+        const data = ma[0];
+        const previousData = ma[1];
+        if (data < previousData) {
             return Core.StrategySide.SELL;
         }
-        if ( data > dataAnt ) {
+        if (data > previousData) {
             return Core.StrategySide.BUY;
         }
         return Core.StrategySide.NEUTRAL;

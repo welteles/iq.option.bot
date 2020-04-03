@@ -38,11 +38,10 @@ export class StrategyMartingale extends StrategyAbstract
             if (!this.isThatMarket(orderClosed.active_id)) {
                 return Promise.resolve();
             }
-            const lastOrder = Core.data.ordersHistory[0];
-            if (lastOrder.result === IQOption.IQOptionResult.WIN) {
+            if (orderClosed.result === IQOption.IQOptionResult.WIN) {
                 this.resetLosses();
             }
-            if (lastOrder.result === IQOption.IQOptionResult.LOOSE) {
+            if (orderClosed.result === IQOption.IQOptionResult.LOOSE) {
                 this.addLoss();
             }
             this.unlockTrade();

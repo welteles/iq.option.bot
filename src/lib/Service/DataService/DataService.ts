@@ -16,7 +16,7 @@ export class DataService {
     /**
      * Max candles.
      */
-    private readonly maxCandles = 100;
+    private readonly maxCandles = 200;
 
     /**
      * Max orders history.
@@ -108,33 +108,43 @@ export class DataService {
      * @param candle
      */
     public updateCandle(candle: IQOption.IQOptionCandle) {
-        if (this.isNewCandle(candle)) {
-            Core.data.candles.high.unshift(candle.max);
-            Core.data.candles.low.unshift(candle.min);
-            Core.data.candles.close.unshift(candle.close);
-            Core.data.candles.open.unshift(candle.open);
-            Core.data.candles.high = Core.data.candles.high.slice(
-                0,
-                this.maxCandles
-            );
-            Core.data.candles.low = Core.data.candles.low.slice(
-                0,
-                this.maxCandles
-            );
-            Core.data.candles.open = Core.data.candles.open.slice(
-                0,
-                this.maxCandles
-            );
-            Core.data.candles.close = Core.data.candles.close.slice(
-                0,
-                this.maxCandles
-            );
-            this.lastCandleFrom = candle.from;
-            Core.EventManager.emit(
-                Core.DataEvent.UPDATE_CANDLE_DISPATCHER,
-                Core.data.candles
-            );
+        if (!this.isNewCandle(candle)) {
+            Core.data.candles.open.pop();
+            Core.data.candles.high.pop();
+            Core.data.candles.low.pop();
+            Core.data.candles.volume.pop();
+            Core.data.candles.close.pop();
         }
+        this.lastCandleFrom = candle.from;
+        Core.data.candles.open.push(candle.open);
+        Core.data.candles.high.push(candle.max);
+        Core.data.candles.low.push(candle.min);
+        Core.data.candles.volume.push(candle.volume);
+        Core.data.candles.close.push(candle.close);
+        Core.data.candles.open = Core.data.candles.open
+            .reverse()
+            .slice(0, this.maxCandles)
+            .reverse();
+        Core.data.candles.high = Core.data.candles.high
+            .reverse()
+            .slice(0, this.maxCandles)
+            .reverse();
+        Core.data.candles.low = Core.data.candles.low
+            .reverse()
+            .slice(0, this.maxCandles)
+            .reverse();
+        Core.data.candles.volume = Core.data.candles.volume
+            .reverse()
+            .slice(0, this.maxCandles)
+            .reverse();
+        Core.data.candles.close = Core.data.candles.close
+            .reverse()
+            .slice(0, this.maxCandles)
+            .reverse();
+        Core.EventManager.emit(
+            Core.DataEvent.UPDATE_CANDLE_DISPATCHER,
+            Core.data.candles
+        );
     }
 
     /**

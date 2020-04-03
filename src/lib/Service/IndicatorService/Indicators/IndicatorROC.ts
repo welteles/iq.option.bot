@@ -6,19 +6,13 @@
  *
  * Proprietary and confidential.
  */
-const talib = require('talib')
+const talib = require("talib");
 import * as Core from "../../..";
 
 /**
  * Indicator condition.
  */
 export class IndicatorROC implements Core.IIndicator {
-
-    /**
-     * Indicator config.
-     */
-    public index: boolean | number;
-
     /**
      * Indicator config.
      */
@@ -31,29 +25,25 @@ export class IndicatorROC implements Core.IIndicator {
      */
     public constructor(conditionConfig: Core.IConditionConfig) {
         this.conditionConfig = conditionConfig;
-        this.index = false;
     }
 
     /**
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
-        const close = candles.close.slice(0, this.conditionConfig.periods[0]+1);
-        // var function_desc = talib.explain("ROC");
-        // console.dir(function_desc);
-        const result = talib.execute({
-            name: "ROC",
-            startIdx: 0,
-            endIdx: close.length-1,
-            inReal: close.reverse(),
-            optInTimePeriod: this.conditionConfig.periods[0]
-        });
-        const rsi = result.result.outReal[0];
-        this.index = rsi;
-        if ( rsi < 0 ) {
+        const dataRoc = talib
+            .execute({
+                name: Core.Indicator.ROC,
+                startIdx: 0,
+                endIdx: candles.close.length - 1,
+                inReal: candles.close,
+                optInTimePeriod: this.conditionConfig.periods[0],
+            } as any)
+            .result.outReal.reverse()[0];
+        if (dataRoc < 0) {
             return Core.StrategySide.SELL;
         }
-        if ( rsi > 0 ) {
+        if (dataRoc > 0) {
             return Core.StrategySide.BUY;
         }
         return Core.StrategySide.NEUTRAL;

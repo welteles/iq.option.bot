@@ -6,19 +6,13 @@
  *
  * Proprietary and confidential.
  */
-const talib = require('talib')
+const talib = require("talib");
 import * as Core from "../../..";
 
 /**
  * Indicator condition.
  */
 export class IndicatorRSI implements Core.IIndicator {
-
-    /**
-     * Indicator config.
-     */
-    public index: boolean | number;
-
     /**
      * Indicator config.
      */
@@ -31,35 +25,32 @@ export class IndicatorRSI implements Core.IIndicator {
      */
     public constructor(conditionConfig: Core.IConditionConfig) {
         this.conditionConfig = conditionConfig;
-        this.index = false;
     }
 
     /**
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
-        const close = candles.close.slice(0, this.conditionConfig.periods[0]+1);
-        const result = talib.execute({
-            name: "RSI",
-            startIdx: 0,
-            endIdx: close.length-1,
-            inReal: close.reverse(),
-            optInTimePeriod: this.conditionConfig.periods[0]
-        });
-        const rsi = result.result.outReal[0];
-        this.index = rsi;
-
+        const rsi = talib
+            .execute({
+                name: Core.Indicator.RSI,
+                startIdx: 0,
+                endIdx: candles.close.length - 1,
+                inReal: candles.close,
+                optInTimePeriod: this.conditionConfig.periods[0],
+            } as any)
+            .result.outReal.reverse()[0];
         if (
             this.conditionConfig.sellEntry !== undefined &&
-            rsi <= this.conditionConfig.sellEntry
+            rsi >= this.conditionConfig.sellEntry
         ) {
-            return Core.StrategySide.SELL;
+            return Core.StrategySide.BUY;
         }
         if (
             this.conditionConfig.buyEntry !== undefined &&
-            rsi >= this.conditionConfig.buyEntry
+            rsi <= this.conditionConfig.buyEntry
         ) {
-            return Core.StrategySide.BUY;
+            return Core.StrategySide.SELL;
         }
         return Core.StrategySide.NEUTRAL;
     }

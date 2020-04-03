@@ -103,7 +103,6 @@ export class InvestingService implements Core.ITechnicalAnalysis {
             this.technicalAnalysisMarketMap[this.market],
             this.technicalAnalysisTimeMap[this.technicalAnalysisConfig.period]
         );
-        console.log(analysis);
         if (
             this.technicalAnalysisConfig.strength ===
             Core.TechnicalAnalysisStrength.LOW
@@ -116,7 +115,6 @@ export class InvestingService implements Core.ITechnicalAnalysis {
                     TechnicalAnalysisInvesting
                         .TechnicalAnalysisInvestingResponse.STRONG_BUY
             ) {
-                console.log(analysis)
                 return Core.StrategySide.BUY;
             }
             if (
@@ -127,7 +125,6 @@ export class InvestingService implements Core.ITechnicalAnalysis {
                     TechnicalAnalysisInvesting
                         .TechnicalAnalysisInvestingResponse.STRONG_SELL
             ) {
-                console.log(analysis)
                 return Core.StrategySide.SELL;
             }
             return false;
@@ -137,7 +134,6 @@ export class InvestingService implements Core.ITechnicalAnalysis {
             TechnicalAnalysisInvesting.TechnicalAnalysisInvestingResponse
                 .STRONG_BUY
         ) {
-            console.log(analysis)
             return Core.StrategySide.BUY;
         }
         if (
@@ -145,7 +141,6 @@ export class InvestingService implements Core.ITechnicalAnalysis {
             TechnicalAnalysisInvesting.TechnicalAnalysisInvestingResponse
                 .STRONG_SELL
         ) {
-            console.log(analysis)
             return Core.StrategySide.SELL;
         }
         return false;

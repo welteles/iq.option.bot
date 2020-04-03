@@ -12,12 +12,6 @@ import * as Core from "../../..";
  * IIndicator.
  */
 export interface IIndicator {
-
-    /**
-     * Indicator config.
-     */
-    index: boolean | number;
-
     /**
      * Check condition candles.
      *

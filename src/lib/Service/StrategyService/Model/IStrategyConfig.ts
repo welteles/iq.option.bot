@@ -68,14 +68,13 @@ export interface IStrategyConfig {
      */
     mode?: IQOption.IQOptionMode;
 
+    /**
+     * Strong required.
+     */
+    strongOnly: boolean;
 
     /**
-     * Time.
+     * High volatility.
      */
-
-    strong_required: boolean;
-    /**
-     * Time.
-     */
-    high_volatility: boolean;
+    highVolatility: boolean;
 }

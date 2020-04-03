@@ -6,19 +6,13 @@
  *
  * Proprietary and confidential.
  */
-const talib = require('talib')
+const talib = require("talib");
 import * as Core from "../../..";
 
 /**
  * Indicator condition.
  */
 export class IndicatorWILLR implements Core.IIndicator {
-
-    /**
-     * Indicator config.
-     */
-    public index: boolean | number;
-
     /**
      * Indicator config.
      */
@@ -31,35 +25,27 @@ export class IndicatorWILLR implements Core.IIndicator {
      */
     public constructor(conditionConfig: Core.IConditionConfig) {
         this.conditionConfig = conditionConfig;
-        this.index = false;
     }
 
     /**
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
-        const close = candles.close.slice(0, this.conditionConfig.periods[0]);
-        const high = candles.high.slice(0, this.conditionConfig.periods[0]);
-        const low = candles.low.slice(0, this.conditionConfig.periods[0]);
-        const result = talib.execute({
-            name: "WILLR",
-            startIdx: 0,
-            endIdx: close.length-1,
-            close: close.reverse(),
-            high: high.reverse(),
-            low: low.reverse(),
-            optInTimePeriod: this.conditionConfig.periods[0]
-        });
-        const data = result.result.outReal[0];
-        this.index = data;
-
-        this.index = data;
-
-        if ( data >= -20 ) {
+        const willr = talib
+            .execute({
+                name: Core.Indicator.WILLR,
+                startIdx: 0,
+                endIdx: close.length - 1,
+                close: candles.close,
+                high: candles.high,
+                low: candles.low,
+                optInTimePeriod: this.conditionConfig.periods[0],
+            } as any)
+            .result.outReal.reverse()[0];
+        if (willr >= -20) {
             return Core.StrategySide.OVERBOUGHT;
         }
-
-        if ( data <= -80 ) {
+        if (willr <= -80) {
             return Core.StrategySide.OVERSOLD;
         }
         return Core.StrategySide.NEUTRAL;

@@ -4,129 +4,15 @@
         "password": ""
     },
     "strategy": {
-        "strategy": "LABOUCHERE",
-        "balanceAvailable": 200,
+        "strategy": "MARTINGALE",
+        "balanceAvailable": 10000,
         "balanceInCurrency": "USD",
         "valueType": "PERCENT",
         "value": 1,
         "market": 1,
         "time": 3,
         "test": true,
-        "martingaleMaxAttempts": 15,
-        "strong_required": true,
-        "high_volatility": false
-    },
-    "indicator": {
-        "time": 60,
-        "minCandles": 5,
-        "strong_required": true,
-        "conditions": [
-            {
-                "indicator": "ADX",
-                "periods": [14]
-            },
-            {
-                "indicator": "ATR",
-                "periods": [14]
-            },
-            {
-                "indicator": "WILLR",
-                "periods": [14]
-            },
-            {
-                "indicator": "BBANDS",
-                "periods": [14],
-                "deviation": 2.5
-            },
-            {
-                "indicator": "RSI",
-                "periods": [14],
-                "buyEntry": 60,
-                "sellEntry" : 40
-            },            {
-                "indicator": "ULTOSC",
-                "periods": [14],
-                "buyEntry": 60,
-                "sellEntry" : 40
-            },
-            {
-                "indicator": "STOCH",
-                "periods": [14],
-                "oversoldEntry": 25,
-                "overboughtEntry": 75,
-                "buyEntry" : 60,
-                "sellEntry" : 40
-            },
-            {
-                "indicator": "STOCHRSI",
-                "periods": [14],
-                "oversoldEntry": 25,
-                "overboughtEntry": 75,
-                "buyEntry" : 60,
-                "sellEntry" : 40
-            },
-            {
-                "indicator": "CCI",
-                "periods": [14],
-                "buyEntry": 50,
-                "sellEntry" : -50
-            },
-            {
-                "indicator": "ROC",
-                "periods": [10],
-                "buyEntry": 50,
-                "sellEntry" : -50
-            },
-            {
-                "indicator": "MA",
-                "periods": [5]
-            },
-            {
-                "indicator": "MA",
-                "periods": [10]
-            },
-            {
-                "indicator": "MA",
-                "periods": [20]
-            },
-            {
-                "indicator": "MA",
-                "periods": [50]
-            },
-            {
-                "indicator": "MA",
-                "periods": [100]
-            },
-            {
-                "indicator": "MA",
-                "periods": [200]
-            },
-            {
-                "indicator": "EMA",
-                "periods": [5]
-            },
-            {
-                "indicator": "EMA",
-                "periods": [10]
-            },
-            {
-                "indicator": "EMA",
-                "periods": [20]
-            },
-            {
-                "indicator": "EMA",
-                "periods": [50]
-            },
-            {
-                "indicator": "EMA",
-                "periods": [100]
-            },
-            {
-                "indicator": "EMA",
-                "periods": [200]
-
-            }
-        ]
+        "martingaleMaxAttempts": 10
     },
     "technicalAnalysis": [
         {
