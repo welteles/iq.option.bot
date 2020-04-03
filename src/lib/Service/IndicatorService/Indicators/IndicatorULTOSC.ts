@@ -12,7 +12,7 @@ import * as Core from "../../..";
 /**
  * Indicator condition.
  */
-export class IndicatorMACD implements Core.IIndicator {
+export class IndicatorULTOSC implements Core.IIndicator {
     /**
      * Indicator config.
      */
@@ -31,28 +31,28 @@ export class IndicatorMACD implements Core.IIndicator {
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
-        const macd = talib.execute({
-            name: Core.Indicator.MACD,
-            startIdx: 0,
-            endIdx: candles.close.length - 1,
-            inReal: candles.close,
-            optInFastPeriod: this.conditionConfig.periods[0],
-            optInSlowPeriod: this.conditionConfig.periods[1],
-            optInSignalPeriod: this.conditionConfig.periods[2],
-        } as any).result;
-        const macdLine = macd.outMACD.reverse();
-        const macdSignal = macd.outMACDSignal.reverse();
+        const ultosc = talib
+            .execute({
+                name: Core.Indicator.ULTOSC,
+                startIdx: 0,
+                endIdx: candles.close.length - 1,
+                close: candles.close,
+                high: candles.high,
+                low: candles.low,
+                optInTimePeriod1: 7, // todo
+                optInTimePeriod2: 14, //  todo
+                optInTimePeriod3: 28, // todo
+            } as any)
+            .result.outReal.reverse()[0];
         if (
             this.conditionConfig.sellEntry !== undefined &&
-            macdLine[0] - macdSignal[0] < 0 &&
-            macdLine[1] - macdSignal[1] > 0
+            ultosc <= this.conditionConfig.sellEntry
         ) {
             return Core.StrategySide.SELL;
         }
         if (
             this.conditionConfig.buyEntry !== undefined &&
-            macdLine[0] - macdSignal[0] > 0 &&
-            macdLine[1] - macdSignal[1] < 0
+            ultosc >= this.conditionConfig.buyEntry
         ) {
             return Core.StrategySide.BUY;
         }

@@ -12,7 +12,7 @@ import * as Core from "../../..";
 /**
  * Indicator condition.
  */
-export class IndicatorBBANDS implements Core.IIndicator {
+export class IndicatorWILLR implements Core.IIndicator {
     /**
      * Indicator config.
      */
@@ -31,21 +31,22 @@ export class IndicatorBBANDS implements Core.IIndicator {
      * Check condition.
      */
     public checkCondition(candles: Core.ICandle): Core.StrategySide {
-        const bbands = talib.execute({
-            name: Core.Indicator.BBANDS,
-            startIdx: 0,
-            endIdx: candles.close.length - 1,
-            inReal: candles.close,
-            optInTimePeriod: this.conditionConfig.periods[0],
-            optInNbDevUp: this.conditionConfig.deviation,
-            optInNbDevDn: this.conditionConfig.deviation,
-            optInMAType: 0,
-        } as any).result;
-        if (candles.close[0] < bbands.outRealLowerBand.reverse()[0]) {
-            return Core.StrategySide.BUY;
+        const willr = talib
+            .execute({
+                name: Core.Indicator.WILLR,
+                startIdx: 0,
+                endIdx: close.length - 1,
+                close: candles.close,
+                high: candles.high,
+                low: candles.low,
+                optInTimePeriod: this.conditionConfig.periods[0],
+            } as any)
+            .result.outReal.reverse()[0];
+        if (willr >= -20) {
+            return Core.StrategySide.OVERBOUGHT;
         }
-        if (candles.close[0] > bbands.outRealUpperBand.reverse()[0]) {
-            return Core.StrategySide.SELL;
+        if (willr <= -80) {
+            return Core.StrategySide.OVERSOLD;
         }
         return Core.StrategySide.NEUTRAL;
     }
