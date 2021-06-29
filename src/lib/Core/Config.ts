@@ -6,6 +6,7 @@
  *
  * Proprietary and confidential.
  */
+require("dotenv").config();
 import * as FileSystem from "fs";
 import * as Core from "..";
 
@@ -18,65 +19,77 @@ export abstract class Config {
      */
     public static build(): Promise<void> {
         Core.logger().silly(`${Core.timestampHelper()} Config::build`);
-        return this.copySampleFile()
-            .then(() => this.streamConfigSample())
-            .then(() => Promise.resolve())
-            .catch((e) => Promise.reject(e));
+        return Config.loadConfig().then(() => Promise.resolve());
     }
 
     /**
      * Stream Config Sample.
      */
-    private static streamConfigSample(): Promise<void> {
-        Core.logger().silly(
-            `${Core.timestampHelper()} Config::streamConfigSample`
-        );
-        return Promise.resolve(
-            FileSystem.watchFile("./config.sample.json", () =>
-                Config.copySampleFile()
-            )
-        );
+    // private static streamConfigSample(): Promise<void> {
+    //     Core.logger().silly(
+    //         `${Core.timestampHelper()} Config::streamConfigSample`
+    //     );
+    //     return Promise.resolve(
+    //         FileSystem.watchFile("./config.sample.json", () =>
+    //             Config.copySampleFile()
+    //         )
+    //     );
+    // }
+
+    /**
+     * Get file name.
+     */
+    private static getConfigFileName(): Promise<string> {
+        const configFile = process.env.CONFIG_FILE;
+        if (!configFile) {
+            return Promise.reject("Config file not set");
+        }
+        return Promise.resolve(configFile as string);
     }
 
     /**
-     * Copy sample file.
+     * Get account enviroment.
      */
-    private static copySampleFile(): Promise<void> {
-        return new Promise((resolve, reject) => {
-            FileSystem.copyFile(
-                "config.sample.json",
-                "config.json",
-                (err: any) => {
-                    if (err) {
-                        reject(err);
-                    }
-                    resolve();
-                }
-            );
-        })
-            .then(() => Config.loadConfig())
-            .then(() => Promise.resolve())
-            .catch((e) => Promise.reject(e));
+    private static getAccountEnviroment(): Promise<{
+        email: string;
+        password: string;
+    }> {
+        if (!process.env.EMAIL || !process.env.PASSWORD) {
+            return Promise.reject("Email or Password is not set");
+        }
+        return Promise.resolve({
+            email: process.env.EMAIL,
+            password: process.env.PASSWORD,
+        });
     }
 
     /**
      * Load config.
      */
     private static loadConfig(): Promise<Core.IConfig> {
-        return new Promise((resolve, reject) => {
-            FileSystem.readFile("./config.json", (errorMessage, fileRead) => {
-                if (errorMessage) {
-                    return reject(errorMessage);
-                }
-                const parseFile = JSON.parse(fileRead.toString());
-                Core.logger().info(
-                    `${Core.timestampHelper()} Config::loadConfig[${JSON.stringify(
-                        parseFile
-                    )}]`
-                );
-                Core.global.config = parseFile;
-                return resolve(parseFile);
-            });
-        });
+        return Promise.all([
+            this.getAccountEnviroment(),
+            this.getConfigFileName(),
+        ]).then(
+            (allResponse) =>
+                new Promise((resolve, reject) => {
+                    const account = allResponse[0];
+                    const fileName = allResponse[1];
+                    FileSystem.readFile(fileName, (errorMessage, fileRead) => {
+                        if (errorMessage) {
+                            return reject(errorMessage);
+                        }
+                        const parseFile = JSON.parse(fileRead.toString());
+                        Core.logger().info(
+                            `${Core.timestampHelper()} LOAD_CONFIG[${JSON.stringify(
+                                parseFile
+                            )}]`
+                        );
+                        Core.global.config = parseFile;
+                        Core.global.config.account = account;
+                        return resolve(parseFile);
+                    });
+                }) as any
+        );
     }
 }

@@ -43,22 +43,25 @@ export class DataStorage {
                     return reject(error);
                 }
                 if (!fileRead.toString()) {
-                    return Promise.resolve();
+                    return resolve();
                 }
                 const parseFile: Core.IData = JSON.parse(fileRead.toString());
-                if (Object.keys(parseFile).length > 0) {
-                    return Promise.resolve();
+                if (!Object.keys(parseFile).length) {
+                    return resolve();
                 }
                 if (
                     moment(parseFile.timestamp).format("YYYY-mm-dd") !==
                     moment().format("YYYY-mm-dd")
                 ) {
-                    return Promise.resolve(DataStorage.clearData());
+                    return resolve(DataStorage.clearData());
                 }
                 Core.data.lose = parseFile.lose;
                 Core.data.win = parseFile.win;
-                Core.data.ordersOpen = parseFile.ordersOpen;
+                Core.data.ordersOpen = parseFile.ordersOpen.filter(
+                    (orderOpen) => orderOpen.expiration_time > moment().unix()
+                );
                 Core.data.timestamp = parseFile.timestamp;
+                new Date().getMilliseconds();
                 return resolve(parseFile);
             });
         });

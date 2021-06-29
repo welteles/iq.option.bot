@@ -185,7 +185,7 @@ export abstract class StrategyAbstract {
     protected createPosition(amount: number): Promise<void> {
         const signal = Core.StrategyEngine.getIndicatorSide();
         Core.logger().info(
-            `${Core.timestampHelper()} StrategyAbstract:createPosition TARGET[${signal}]`
+            `${Core.timestampHelper()} CREATE_POSITION TARGET[${signal}]`
         );
         const iqOptionSide =
             signal === Core.StrategySide.BUY

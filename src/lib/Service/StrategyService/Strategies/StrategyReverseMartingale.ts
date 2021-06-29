@@ -14,8 +14,10 @@ import { StrategyAbstract } from "./StrategyAbstract";
 /**
  * Strategy simple.
  */
-export class StrategyReverseMartingale extends StrategyAbstract
-    implements Core.IStrategy {
+export class StrategyReverseMartingale
+    extends StrategyAbstract
+    implements Core.IStrategy
+{
     /**
      * Loses attempts.
      */

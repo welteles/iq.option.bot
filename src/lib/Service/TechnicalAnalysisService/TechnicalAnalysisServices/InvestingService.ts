@@ -17,7 +17,8 @@ export class InvestingService implements Core.ITechnicalAnalysis {
     /**
      * Indicator config.
      */
-    private readonly technicalAnalysisInvesting: TechnicalAnalysisInvesting.TechnicalAnalysisInvesting = new TechnicalAnalysisInvesting.TechnicalAnalysisInvesting();
+    private readonly technicalAnalysisInvesting: TechnicalAnalysisInvesting.TechnicalAnalysisInvesting =
+        new TechnicalAnalysisInvesting.TechnicalAnalysisInvesting();
 
     /**
      * Technical Analysis Config

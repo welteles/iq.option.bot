@@ -21,7 +21,7 @@ export abstract class IndicatorServiceBuild {
         );
         if (!this.haveIndicator()) {
             Core.logger().silly(
-                `${Core.timestampHelper()} IndicatorServiceBuild::build Indicator is not set.`
+                `${Core.timestampHelper()} IndicatorServiceBuild::build[INDICATOR_IS_NOT_SET]`
             );
             return Promise.resolve();
         }

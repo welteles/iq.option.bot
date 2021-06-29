@@ -14,8 +14,10 @@ import { StrategyAbstract } from "./StrategyAbstract";
 /**
  * Strategy simple.
  */
-export class StrategyMartingale extends StrategyAbstract
-    implements Core.IStrategy {
+export class StrategyMartingale
+    extends StrategyAbstract
+    implements Core.IStrategy
+{
     /**
      * Loses attempts.
      */
@@ -25,6 +27,11 @@ export class StrategyMartingale extends StrategyAbstract
      * Martingale max attempts.
      */
     private martingaleMaxAttempts: number = 4;
+
+    /**
+     * Last target number.
+     */
+    private lastTarget: number = 0;
 
     /**
      * On order closed.
@@ -57,12 +64,11 @@ export class StrategyMartingale extends StrategyAbstract
                 if (!this.isTradeEnable()) {
                     return Promise.resolve();
                 }
-                return this.createPosition(
-                    this.createNextTarget(
-                        this.getAmount(),
-                        this.getProfitPercent()
-                    )
+                this.lastTarget = this.createNextTarget(
+                    this.getAmount(),
+                    this.getProfitPercent()
                 );
+                return this.createPosition(this.lastTarget);
             })
             .catch(() => Promise.resolve());
     }
@@ -82,6 +88,9 @@ export class StrategyMartingale extends StrategyAbstract
             return amountCalculated;
         }
         const lastOrder = Core.data.ordersHistory[0];
+        if (lastOrder.result === IQOption.IQOptionResult.EQUAL) {
+            return this.lastTarget;
+        }
         if (lastOrder.result === IQOption.IQOptionResult.WIN) {
             return amountCalculated;
         }

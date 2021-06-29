@@ -66,7 +66,7 @@ export const strategyInformation = () => {
         .decimalPlaces(2)
         .toNumber();
     const messageInformation = `POSITION_AMOUNT[${amount}] MARKET[${market}] WINS[${Core.data.win.length}] LOSES[${Core.data.lose.length}] RESULT[${result}]`;
-    if (lastMessageInformation !== messageInformation) {
+    if (lastMessageInformation !== messageInformation && amount) {
         lastMessageInformation = messageInformation;
         Core.logger().info(`${Core.timestampHelper()} ${messageInformation}`);
     }

@@ -14,8 +14,10 @@ import { StrategyAbstract } from "./StrategyAbstract";
 /**
  * Strategy simple.
  */
-export class StrategyLabouchere extends StrategyAbstract
-    implements Core.IStrategy {
+export class StrategyLabouchere
+    extends StrategyAbstract
+    implements Core.IStrategy
+{
     /**
      * Labouchere size.
      */
@@ -126,9 +128,8 @@ export class StrategyLabouchere extends StrategyAbstract
      */
     private createNextTarget(): number {
         const firstAmount = this.labouchereSystem[0];
-        const lastAmount = this.labouchereSystem[
-            this.labouchereSystem.length - 1
-        ];
+        const lastAmount =
+            this.labouchereSystem[this.labouchereSystem.length - 1];
         return new BigNumber(firstAmount)
             .plus(lastAmount)
             .decimalPlaces(2)

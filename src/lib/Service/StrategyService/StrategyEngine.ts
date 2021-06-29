@@ -32,7 +32,8 @@ export class StrategyEngine {
                 return;
             }
             Core.enableStrategyInformation();
-            StrategyEngine.indicatorSide = Core.IndicatorService.getIndicatorSide();
+            StrategyEngine.indicatorSide =
+                Core.IndicatorService.getIndicatorSide();
             if (
                 StrategyEngine.indicatorSide === Core.StrategySide.BUY ||
                 StrategyEngine.indicatorSide === Core.StrategySide.SELL
@@ -42,7 +43,8 @@ export class StrategyEngine {
         }
         if (Core.TechnicalAnalysisBuild.haveTechnicalAnalysis()) {
             Core.enableStrategyInformation();
-            StrategyEngine.indicatorSide = Core.TechnicalAnalysisService.getIndicatorSide();
+            StrategyEngine.indicatorSide =
+                Core.TechnicalAnalysisService.getIndicatorSide();
             if (
                 StrategyEngine.indicatorSide === Core.StrategySide.BUY ||
                 StrategyEngine.indicatorSide === Core.StrategySide.SELL

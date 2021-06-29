@@ -26,9 +26,8 @@ export class StrategyFactory {
                 strategyConfig.strategy
             }]`
         );
-        StrategyFactory.instance = this.strategies[strategyConfig.strategy](
-            strategyConfig
-        );
+        StrategyFactory.instance =
+            this.strategies[strategyConfig.strategy](strategyConfig);
         return Promise.resolve(StrategyFactory.instance);
     }
 

@@ -24,10 +24,8 @@ export abstract class StrategyServiceBuild {
         const strategyConfig = Core.global.config.strategy;
         strategyConfig.mode = IQOption.IQOptionMode.TURBO;
         if (process.env.MARKET !== undefined) {
-            Core.global.config.strategy.market = strategyConfig.market = parseInt(
-                process.env.MARKET,
-                0
-            );
+            Core.global.config.strategy.market = strategyConfig.market =
+                parseInt(process.env.MARKET, 0);
         }
         if (process.env.MODE !== undefined) {
             Core.global.config.strategy.mode = strategyConfig.mode = process.env

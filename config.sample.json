@@ -1,14 +1,10 @@
 {
-    "account": {
-        "email": "",
-        "password": ""
-    },
     "strategy": {
         "strategy": "MARTINGALE",
         "balanceAvailable": 10000,
         "balanceInCurrency": "USD",
-        "valueType": "PERCENT",
-        "value": 1,
+        "valueType": "FIXED",
+        "value": 5,
         "market": 1,
         "time": 3,
         "test": true,
@@ -17,16 +13,8 @@
     "technicalAnalysis": [
         {
             "technicalAnalysis": "INVESTING",
-            "period": "PERIOD_1M",
+            "period": "PERIOD_5M",
             "strength": "HIGH"
         }
-    ],
-    "stopLoss": {
-        "type": "PERCENT",
-        "value": 10
-    },
-    "takeProfit": {
-        "type": "PERCENT",
-        "value": 5
-    }
+    ]
 }
